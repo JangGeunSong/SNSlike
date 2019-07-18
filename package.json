@@ -1,0 +1,24 @@
+{
+  "name": "mera",
+  "version": "1.0.0",
+  "description": "This is apply project using graphQL(Apollo) + React.js + MongoDB",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "author": "Janggeun Song",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server-express": "^2.7.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "graphql": "^14.4.2",
+    "graphql-tools": "^4.0.5",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.6.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
