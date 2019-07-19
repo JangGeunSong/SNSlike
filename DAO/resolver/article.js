@@ -1,6 +1,10 @@
 const Article = require('../../model/Article');
 const User = require('../../model/User');
 
+async function findtargetUser (userId) {
+    return await User.findById(userId);
+}
+
 module.exports = {
     Query: {
         articles: async () => {
@@ -8,9 +12,10 @@ module.exports = {
                 const articles = await Article.find();
                 return articles.map(article => {
                     return {
+                        _id: article._id,
                         title: article.title,
-                        writer: article.writer,
-                        date: article.date,
+                        writer: findtargetUser(article.writer),
+                        date: new Date(article.date).toISOString(),
                         description: article.description
                     };
                 }); 

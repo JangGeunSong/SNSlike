@@ -2,10 +2,28 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../../model/User');
+const Article = require('../../model/Article');
 
 module.exports = {
     Query: {
-
+        users: async () => {
+            try {
+                const users = await User.find();
+                return users.map(user => {
+                    return {
+                        _id: user._id,
+                        name: user.name,
+                        email: user.email,
+                        profile_image: user.profile_image,
+                        profile: user.profile,
+                        created_articles: user.created_articles,
+                    };
+                });
+            } 
+            catch (error) {
+                throw error;
+            }
+        }
     },
     Mutation: {
         // create user method

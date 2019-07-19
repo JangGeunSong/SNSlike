@@ -26,7 +26,7 @@ module.exports =  typeDefs = gql`
   # Define Query type
   type Query {
     articles: [Article]
-    user: [User]
+    users: [User]
   }
 
   # Define userInput
