@@ -1,3 +1,6 @@
 # Very private infomation is blocked
 /node_modules
 nodemon.json
+
+/client/node_modules
+/client/.next
