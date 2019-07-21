@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'next/router'
 
 import './index.css';
 
@@ -15,4 +16,4 @@ class index extends Component {
     }
 }
 
-export default index;
+export default withRouter(index);

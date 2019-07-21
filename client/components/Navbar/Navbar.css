@@ -1,7 +1,38 @@
 .Navbar {
-    position: absolute;
     margin: 0;
     padding: 0;
+}
+
+.Navbar-close-button {
+    background-color: #8de28d;
+    border: none;
+    position: absolute;
+    left: 8.5rem;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.Navbar-active-button {
+    margin: 0;
+    padding: 0;
+    font-size: 2rem;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    background-color: #fff;
+}
+
+.Navbar-default {
+    margin: 0;
+    padding: 0;
+}
+
+.Navbar-active {
+    position: absolute;
+    margin: 0;
+    padding-top: 3rem;
     background-color: #8de28d;
     width: 10rem;
     max-width: 15%;
@@ -9,4 +40,6 @@
     max-height: 100%;
     font-family: Verdana, Tahoma, sans-serif;
     z-index: 10;
+    overflow-x: hidden;
+    transition: 0.5s;
 }
