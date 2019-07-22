@@ -1,0 +1,14 @@
+.Articles {
+    margin: 0;
+    padding: 0;
+}
+
+.Article {
+    text-align: center;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    background-color: #8de28d;
+    width: 55rem;
+    max-width: 90%;
+}

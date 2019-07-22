@@ -14,3 +14,27 @@ p {
     background-color: white;
     font-family: sans-serif;
 }
+
+.title {
+    padding: 0;
+    margin: 0;
+    font-size: 3rem;
+    background-color: #8de28d;
+    display: inline-block;
+    width: 100rem;
+    max-width: 100%;
+}
+
+.title a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.contentContainer {
+    align-items: center;
+    width: 50rem;
+    max-width: 80%;
+    padding-top: 7rem;
+    margin: 0;
+    padding-left: 26rem;
+}

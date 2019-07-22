@@ -4,13 +4,19 @@ import { withRouter } from 'next/router'
 import './index.css';
 
 import Navbar from '../components/Navbar/Navbar';
+import Articles from '../components/Articles/Articles';
 
 class index extends Component {
     render() {
         return (
             <div className="home">
+                <div className="title">
+                    <a href="">Title</a>
+                </div>
                 <Navbar />
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Reprehenderit, laborum ab adipisci nihil reiciendis alias, iusto eveniet nemo enim quas iste odit dolorem modi quibusdam animi aut eius illo temporibus?</p>   
+                <div className="contentContainer">
+                    <Articles />   
+                </div>
             </div>
         )
     }

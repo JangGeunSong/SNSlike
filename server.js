@@ -12,7 +12,14 @@ app.use(bodyParser.json());
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
-server.applyMiddleware({ app })
+server.applyMiddleware({ 
+    app,
+    cors: {
+        credentials: true,
+        origin: true,
+    },
+    path: "/",
+})
 
 const port = process.env.PORT || 5500
 

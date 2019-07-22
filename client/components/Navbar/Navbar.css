@@ -3,18 +3,19 @@
     padding: 0;
 }
 
-.Navbar-close-button {
+.Navbar__close-button {
     background-color: #8de28d;
     border: none;
     position: absolute;
-    left: 8.5rem;
+    left: 6.8rem;
     cursor: pointer;
     outline: none;
     color: #fff;
     transition: 0.3s;
+    font-size: 3rem;
 }
 
-.Navbar-active-button {
+.Navbar__active-button {
     margin: 0;
     padding: 0;
     font-size: 2rem;
@@ -22,17 +23,17 @@
     cursor: pointer;
     outline: none;
     background-color: #fff;
+    position: absolute;
 }
 
-.Navbar-default {
+.Navbar__default {
     margin: 0;
     padding: 0;
 }
 
-.Navbar-active {
+.Navbar__active {
     position: absolute;
     margin: 0;
-    padding-top: 3rem;
     background-color: #8de28d;
     width: 10rem;
     max-width: 15%;
@@ -42,4 +43,18 @@
     z-index: 10;
     overflow-x: hidden;
     transition: 0.5s;
+}
+
+.Navbar__route {
+    outline: none;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5rem;
+    line-height: 5rem;
+}
+
+.Navbar__route:hover, 
+.Navbar__active-button:hover,
+.Navbar__close-button:hover {
+    color: #a5cae4;
 }
