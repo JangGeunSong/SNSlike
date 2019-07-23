@@ -33,7 +33,7 @@ export class Articles extends Component {
                                 <div key={article._id} className="Article">
                                     <h1>{article.title}</h1>
                                     <h2>{article.description}</h2>
-                                    <Moment format="YYYY/MM/DD" local>{article.date}</Moment>
+                                    <Moment format="LLLL" local>{article.date}</Moment>
                                     <p>{article.writer.name}</p>
                                 </div>
                             ))}

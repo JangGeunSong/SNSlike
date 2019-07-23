@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'next/router'
+import Link from 'next/link'
 
 import './index.css';
 
@@ -10,14 +11,16 @@ class index extends Component {
     render() {
         return (
             <div className="home">
-                <div className="title">
-                    <a href="">Title</a>
+                    <div className="title">
+                        <Link href="/">Title</Link>
+                    </div>
+                    <Navbar />
+                    <React.Fragment>
+                        <div className="contentContainer">
+                            <Articles />   
+                        </div>
+                    </React.Fragment>
                 </div>
-                <Navbar />
-                <div className="contentContainer">
-                    <Articles />   
-                </div>
-            </div>
         )
     }
 }

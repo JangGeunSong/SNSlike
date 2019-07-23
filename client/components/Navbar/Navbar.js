@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { withRouter } from 'next/router'
+import React, { useState } from 'react';
+import { withRouter } from 'next/router';
+import Link from 'next/link';
 
 import './Navbar.css';
 
@@ -13,10 +14,10 @@ function Navbar() {
             (
                 <div className="Navbar__active">
                     <button className="Navbar__close-button" onClick={() => setNavbarShow(false)}>X</button>
-                    <a href="" className="Navbar__route">Home</a><br/>
-                    <a href="" className="Navbar__route">About</a><br/>
-                    <a href="" className="Navbar__route">Config</a><br/>
-                    <a href="" className="Navbar__route">Q&A</a><br/>
+                    <Link href="/" ><a className="Navbar__route">Home</a></Link><br/>
+                    <Link href="/about" ><a className="Navbar__route">About</a></Link><br/>
+                    <Link href="createarticle" ><a className="Navbar__route">new article</a></Link><br/>
+                    <Link href="" ><a className="Navbar__route">Q&A</a></Link><br/>
                 </div>
             ) :
             (

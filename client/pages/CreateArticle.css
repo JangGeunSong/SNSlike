@@ -8,13 +8,6 @@ p {
     padding: 0;
 }
 
-.home {
-    margin: 0;
-    padding: 0;
-    background-color: white;
-    font-family: sans-serif;
-}
-
 .title {
     padding: 0;
     margin: 0;
@@ -37,4 +30,14 @@ p {
     padding-top: 3rem;
     margin: 0;
     padding-left: 26rem;
+}
+
+textarea {
+    resize: none;
+}
+
+.form__control {
+    margin: 0;
+    padding: 1rem;
+    font-family: sans-serif;
 }
