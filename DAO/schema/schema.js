@@ -49,6 +49,7 @@ module.exports =  typeDefs = gql`
   type Mutation {
     createUser(userInput: UserInput): User
     createArticle(articleInput: ArticleInput): Article
+    deleteArticle(articleId: ID!): Article
   }
 
 `;

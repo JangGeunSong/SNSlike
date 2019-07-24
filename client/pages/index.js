@@ -8,18 +8,21 @@ import Navbar from '../components/Navbar/Navbar';
 import Articles from '../components/Articles/Articles';
 
 class index extends Component {
+
+    componentDidMount() {
+        document.title = "Home"
+    }
+
     render() {
         return (
             <div className="home">
                     <div className="title">
-                        <Link href="/">Title</Link>
+                        <Link href="/"><a>Title</a></Link>
                     </div>
                     <Navbar />
-                    <React.Fragment>
-                        <div className="contentContainer">
-                            <Articles />   
-                        </div>
-                    </React.Fragment>
+                    <div className="contentContainer">
+                        <Articles />   
+                    </div>
                 </div>
         )
     }

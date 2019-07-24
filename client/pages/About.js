@@ -5,11 +5,16 @@ import Navbar from '../components/Navbar/Navbar'
 import './About.css'
 
 class About extends Component {
+
+    componentDidMount() {
+        document.title = "About"
+    }
+
     render() {
         return (
             <div className="about">
                 <div className="title">
-                    <Link href="/">Title</Link>
+                    <Link href="/"><a>Title</a></Link>
                 </div>
                 <Navbar />
                 <div className="contentContainer">

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Query } from 'react-apollo'
+import { Query, Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import Moment from 'react-moment'
 
@@ -21,6 +21,21 @@ export class Articles extends Component {
                 }
             }
         `;
+
+        const DELETE_ARTICLE = gql`
+            mutation deleteArticle ($articleId: ID!) {
+                deleteArticle(articleId: $articleId) {
+                    _id
+                    title
+                    description
+                    date
+                    writer {
+                        name
+                    }
+                }
+            }
+        `
+
         return (
             <Query query={GET_ARTICLES}>
                 {({ loading, error, data }) => {
@@ -30,12 +45,25 @@ export class Articles extends Component {
                     return (
                         <div className="Articles">
                             {data.articles.map(article => (
-                                <div key={article._id} className="Article">
-                                    <h1>{article.title}</h1>
-                                    <h2>{article.description}</h2>
-                                    <Moment format="LLLL" local>{article.date}</Moment>
-                                    <p>{article.writer.name}</p>
-                                </div>
+                                <Mutation 
+                                    key={article._id} 
+                                    mutation={DELETE_ARTICLE}
+                                >
+                                    {(deleteArticle, data) => (
+                                        <div className="Article">
+                                            <h1>{article.title}</h1>
+                                            <h2>{article.description}</h2>
+                                            <Moment format="LLLL" local>{article.date}</Moment>
+                                            <p>{article.writer.name}</p>
+                                            <button className="Article__button" onClick={e => {
+                                                e.preventDefault();
+                                                deleteArticle({ variables: { articleId: article._id } })
+                                            }}>
+                                                Delete
+                                            </button>
+                                        </div>
+                                    )}                                    
+                                </Mutation>
                             ))}
                         </div>                        
                     );

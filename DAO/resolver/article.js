@@ -56,5 +56,25 @@ module.exports = {
                 throw err;
             }
         },
+        deleteArticle: async (request, args) => {
+            const articleId = args.articleId;
+            let targetArticle;
+            try {
+                const result = await Article.findById(articleId).populate('article');
+                await Article.deleteOne({ _id: articleId });
+                targetArticle = {
+                    ...result._doc,
+                    _id: result._id,
+                    title: result._doc.title,
+                    description: result._doc.description,                    
+                    date: new Date(result._doc.date).toISOString(),
+                    writer: result._doc.writer,
+                }
+                return targetArticle;
+            } 
+            catch (err) {
+                throw err
+            }
+        }
     },
 }
