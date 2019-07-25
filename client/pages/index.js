@@ -20,9 +20,11 @@ class index extends Component {
                         <Link href="/"><a>Title</a></Link>
                     </div>
                     <Navbar />
-                    <div className="contentContainer">
-                        <Articles />   
-                    </div>
+                    <React.Fragment>
+                        <div className="contentContainer">
+                            <Articles />   
+                        </div>
+                    </React.Fragment>
                 </div>
         )
     }

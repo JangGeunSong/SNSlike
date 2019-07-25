@@ -34,6 +34,7 @@ export class CreateArticle extends Component {
                 }
             }
         `   
+
         return (
             <div>
                 <div className="title">
@@ -41,7 +42,9 @@ export class CreateArticle extends Component {
                 </div>
                 <Navbar />
                 <React.Fragment>
-                    <Mutation mutation={CREATE_ARTICLE}>
+                    <Mutation 
+                        mutation={CREATE_ARTICLE}
+                    >
                         {(addArticle, data) => (
                             <div className="contentContainer">
                                 <form
@@ -53,6 +56,9 @@ export class CreateArticle extends Component {
                                                 description: this.descriptionRef.current.value
                                             } 
                                         });
+                                        console.log(e.target);
+                                        alert(`article is created!`);
+                                        window.location.reload();
                                     }}
                                 >
                                     <div className="form__control">
