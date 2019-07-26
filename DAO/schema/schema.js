@@ -23,6 +23,13 @@ module.exports =  typeDefs = gql`
     created_articles: [Article]
   }
 
+  # Define Authentication type
+  type AuthData {
+    userId: ID!
+    token: String!
+    tokenExpiration: Int!
+  }
+
   # Define Query type
   type Query {
     articles: [Article]
@@ -45,11 +52,18 @@ module.exports =  typeDefs = gql`
     writer: String!
   }
 
+  # Define loginInput
+  input LoginInput {
+    email: String!
+    password: String!
+  }
+
   # Define Mutation
   type Mutation {
     createUser(userInput: UserInput): User
     createArticle(articleInput: ArticleInput): Article
     deleteArticle(articleId: ID!): Article
+    login(loginInput: LoginInput!): AuthData
   }
 
 `;

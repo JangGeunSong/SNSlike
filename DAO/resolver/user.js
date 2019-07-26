@@ -49,5 +49,27 @@ module.exports = {
                 throw err;
             }
         },
+
+        // login method
+        login: async (request, args) => {
+            const user = await User.findOne({ email: args.loginInput.email });
+            try {
+                const isExistUser = await User.findOne({ email: args.loginInput.email });
+                if(!isExistUser) return new Error('User is not exist!');
+                const isPasswordEqual = await bcrypt.compare(args.loginInput.password, user.password)
+                if(!isPasswordEqual) return new Error('Password is not matched. please check your password!');
+                const token = jwt.sign(
+                    {userId: user.id, email: user.email},
+                    'somesupersecurity',
+                    {
+                        expiresIn: '1h'
+                    }
+                );
+                return { userId: user.id, token: token, tokenExpiration: 1 };
+            } 
+            catch (error) {
+                throw err;
+            }
+        }
     },
 }
