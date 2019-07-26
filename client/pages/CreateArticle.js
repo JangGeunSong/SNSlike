@@ -3,8 +3,9 @@ import Link from 'next/link'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 
+import './pageStyle.css'
+
 import Navbar from '../components/Navbar/Navbar'
-import './CreateArticle.css'
 
 export class CreateArticle extends Component {
 
@@ -39,6 +40,18 @@ export class CreateArticle extends Component {
             <div>
                 <div className="title">
                         <Link href="/"><a>Title</a></Link>
+                        <div className="button__bundle">
+                            <Link href="/login">
+                                <button className="title__login">
+                                    <a>Login</a>
+                                </button>
+                            </Link>
+                            <Link href="/register">
+                                <button className="title__register">
+                                    <a>Sign Up</a>
+                                </button>
+                            </Link>
+                        </div>
                 </div>
                 <Navbar />
                 <React.Fragment>

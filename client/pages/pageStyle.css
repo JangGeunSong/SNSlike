@@ -8,12 +8,20 @@ p {
     padding: 0;
 }
 
+.home {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    font-family: sans-serif;
+}
+
 .title {
     padding: 0;
     margin: 0;
     font-size: 3rem;
     background-color: #053691;
-    display: inline-block;
+    display: flex;
+    justify-content: space-between;
     width: 100rem;
     max-width: 100%;
 }
@@ -30,6 +38,29 @@ p {
     padding-top: 3rem;
     margin: 0;
     padding-left: 26rem;
+}
+
+.button__bundle {
+    display: inline;
+    justify-content: space-between;
+}
+
+.title__login,
+.title__register {
+    margin: 0;
+    margin-left: 1rem;
+    padding: 1rem; 
+    font-family: sans-serif;
+    background-color: #055e91;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.title__login:hover,
+.title__register:hover {
+    background-color: #097edd;
 }
 
 textarea {

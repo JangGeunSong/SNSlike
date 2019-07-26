@@ -1,22 +1,20 @@
 import React, { Component } from 'react'
-import { withRouter } from 'next/router'
 import Link from 'next/link'
 
-import './pageStyle.css';
+import './pageStyle.css'
 
 import Navbar from '../components/Navbar/Navbar';
-import Articles from '../components/Articles/Articles';
 
-class index extends Component {
+class register extends Component {
 
     componentDidMount() {
-        document.title = "Home"
+        document.title = "Register"
     }
 
     render() {
         return (
-            <div className="home">
-                    <div className="title">
+            <div>
+                <div className="title">
                         <Link href="/"><a>Title</a></Link>
                         <div className="button__bundle">
                             <Link href="/login">
@@ -31,15 +29,13 @@ class index extends Component {
                             </Link>
                         </div>
                     </div>
-                    <Navbar />
-                    <React.Fragment>
-                        <div className="contentContainer">
-                            <Articles />   
-                        </div>
-                    </React.Fragment>
+                <Navbar />
+                <div className="contentContainer">
+                    Welcome to Register page
                 </div>
+            </div>
         )
     }
 }
 
-export default withRouter(index);
+export default register
