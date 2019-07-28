@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Link from 'next/link'
-import { Mutation } from 'react-apollo'
+import { Mutation, ApolloConsumer } from 'react-apollo'
 import gql from 'graphql-tag'
 
 import './pageStyle.css'
@@ -43,9 +43,31 @@ class login extends Component {
                     </div>
                 <Navbar />
                 <div className="contentContainer">
-                    {/* <Mutation mutation={LOGIN_USER}>
+                    <ApolloConsumer>
+                        {client => (
+                            <Mutation
+                                mutation={LOGIN_USER}
+                                onCompleted={({ login }) => {
+                                    localStorage.setItem('token', login);
+                                    client.writeData({ data: { isLoggedIn: true } });
+                                }}
+                            >
+                                {(login, { loading, error }) => {
+                                    if(loading) return <p>Loading...</p>
+                                    if(error) return <p>Error is occured!</p>
 
-                    </Mutation> */}
+                                    return (
+                                        <form action="" className="form__control">
+                                            <h1>Login page</h1>
+                                            <input type="text" placeholder="type your ID"/>
+                                            <input type="text" placeholder="type your Password"/>
+                                            <button className="form__button"></button>
+                                        </form>
+                                    )
+                                }}
+                            </Mutation>
+                        )}
+                    </ApolloConsumer>
                 </div>
             </div>
         )
