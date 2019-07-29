@@ -24,6 +24,9 @@ class login extends Component {
             }
         `
 
+        let EMAIL;
+        let PASSWORD;
+
         return (
             <div>
                 <div className="title">
@@ -49,6 +52,7 @@ class login extends Component {
                                 mutation={LOGIN_USER}
                                 onCompleted={({ login }) => {
                                     localStorage.setItem('token', login);
+                                    console.log(localStorage);
                                     client.writeData({ data: { isLoggedIn: true } });
                                 }}
                             >
@@ -57,11 +61,14 @@ class login extends Component {
                                     if(error) return <p>Error is occured!</p>
 
                                     return (
-                                        <form action="" className="form__control">
+                                        <form className="form__control" onSubmit={e => {
+                                            e.preventDefault();
+                                            login({ variables: {email: EMAIL.value, password: PASSWORD.value} })
+                                        }}>
                                             <h1>Login page</h1>
-                                            <input type="text" placeholder="type your ID"/>
-                                            <input type="text" placeholder="type your Password"/>
-                                            <button className="form__button"></button>
+                                            <input type="text" placeholder="type your ID" ref={emailValue =>{EMAIL = emailValue}}/>
+                                            <input type="password" placeholder="type your Password" ref={PSV => {PASSWORD = PSV}}/>
+                                            <button className="form__button">Login</button>
                                         </form>
                                     )
                                 }}

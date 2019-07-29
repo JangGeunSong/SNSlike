@@ -39,12 +39,23 @@ function Articles() {
                 if (loading) return 'Loading...';
                 if (error) return `Error! ${error.message}`;
 
+                let resultArticle = data.articles;
+
                 return (
                     <div className="Articles">
-                        {data.articles.map(article => (
+                        {resultArticle.map(article => (
                             <Mutation 
                                 key={article._id} 
                                 mutation={DELETE_ARTICLE}
+                                refetchQueries={() => {
+                                    console.log("Refetch Query run");
+                                    return [
+                                        {
+                                            query: GET_ARTICLES,
+                                            variables: resultArticle
+                                        }
+                                    ]
+                                }}
                             >
                                 {deleteArticle => (
                                     <div className="Article">
@@ -55,10 +66,6 @@ function Articles() {
                                         <button className="Article__button" onClick={e => {
                                             e.preventDefault();
                                             deleteArticle({ variables: { articleId: article._id } })
-                                            alert(`article is deleted!`);
-                                            setTimeout(() => {
-                                                window.location.reload()
-                                            }, 1000);
                                         }}>
                                             Delete
                                         </button>

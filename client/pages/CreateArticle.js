@@ -70,7 +70,6 @@ export class CreateArticle extends Component {
                                             } 
                                         });
                                         console.log(e.target);
-                                        alert(`article is created!`);
                                         window.location.reload();
                                     }}
                                 >

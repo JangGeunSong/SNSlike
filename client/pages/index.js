@@ -16,28 +16,28 @@ class index extends Component {
     render() {
         return (
             <div className="home">
-                    <div className="title">
-                        <Link href="/"><a>Title</a></Link>
-                        <div className="button__bundle">
-                            <Link href="/login">
-                                <button className="title__login">
-                                    <a>Login</a>
-                                </button>
-                            </Link>
-                            <Link href="/register">
-                                <button className="title__register">
-                                    <a>Sign Up</a>
-                                </button>
-                            </Link>
-                        </div>
+                <div className="title">
+                    <Link href="/"><a>Title</a></Link>
+                    <div className="button__bundle">
+                        <Link href="/login">
+                            <button className="title__login">
+                                <a>Login</a>
+                            </button>
+                        </Link>
+                        <Link href="/register">
+                            <button className="title__register">
+                                <a>Sign Up</a>
+                            </button>
+                        </Link>
                     </div>
-                    <Navbar />
-                    <React.Fragment>
-                        <div className="contentContainer">
-                            <Articles />   
-                        </div>
-                    </React.Fragment>
                 </div>
+                <Navbar />
+                <React.Fragment>
+                    <div className="contentContainer">
+                        <Articles />   
+                    </div>
+                </React.Fragment>
+            </div>
         )
     }
 }
