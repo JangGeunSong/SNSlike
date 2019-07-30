@@ -41,8 +41,8 @@ p {
 }
 
 .button__bundle {
-    display: inline;
-    justify-content: space-between;
+    float: right;
+    max-width: 40%;
 }
 
 .title__login,
