@@ -17,11 +17,9 @@ class index extends Component {
         document.title = "Home"
         if(localStorage.getItem('token') === null) {
             this.setState({ isLoggedIn: false });
-            console.log(localStorage.getItem('token'));
         }
         else {
             this.setState({ isLoggedIn: true })
-            console.log(localStorage.getItem('token'));
         }
     }
 
