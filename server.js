@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { ApolloServer } = require('apollo-server-express');
+const { graphqlUploadExpress } = require('graphql-upload');
 
 const typeDefs = require('./DAO/schema/schema');
 const resolvers = require('./DAO/resolver/merge');
@@ -20,6 +21,11 @@ server.applyMiddleware({
     },
     path: "/",
 })
+
+app.use(
+    '/graphql',
+    graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 })
+)
 
 const port = process.env.PORT || 5500
 

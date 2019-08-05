@@ -15,6 +15,7 @@ function Articles() {
                 date
                 writer {
                     name
+                    profile_image
                 }
             }
         }
@@ -29,6 +30,7 @@ function Articles() {
                 date
                 writer {
                     name
+                    profile_image
                 }
             }
         }
@@ -63,6 +65,7 @@ function Articles() {
                                         <h2>{article.description}</h2>
                                         <Moment format="LLLL" local>{article.date}</Moment>
                                         <p>{article.writer.name}</p>
+                                        <img src={article.writer.profile_image} alt={article.writer.name}/>
                                         <button className="Article__button" onClick={e => {
                                             e.preventDefault();
                                             deleteArticle({ variables: { articleId: article._id } })

@@ -15,7 +15,7 @@ function create (initialState) {
       // Use fetch() polyfill on the server
       fetch: !isBrowser && fetch
     }),
-    cache: new InMemoryCache().restore(initialState || {})
+    cache: new InMemoryCache().restore(initialState || {}),
   })
 }
 

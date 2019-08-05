@@ -34,6 +34,7 @@ module.exports =  typeDefs = gql`
   type Query {
     articles: [Article]
     users: [User]
+    uploads: [File]
   }
 
   # Define userInput
@@ -64,6 +65,14 @@ module.exports =  typeDefs = gql`
     createArticle(articleInput: ArticleInput): Article
     deleteArticle(articleId: ID!): Article
     login(loginInput: LoginInput!): AuthData
+    singleUpload(file: Upload!): File!
+  }
+
+  # Define file type
+  type File {
+    filename: String!
+    mimetype: String!
+    encoding: String!
   }
 
 `;
