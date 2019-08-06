@@ -65,7 +65,7 @@ function Articles() {
                                         <h2>{article.description}</h2>
                                         <Moment format="LLLL" local>{article.date}</Moment>
                                         <p>{article.writer.name}</p>
-                                        <img src={article.writer.profile_image} alt={article.writer.name}/>
+                                        <img src={`http://localhost:5500/static/image/${article.writer.profile_image}`} alt={`${article.writer.name}'s image`}/>
                                         <button className="Article__button" onClick={e => {
                                             e.preventDefault();
                                             deleteArticle({ variables: { articleId: article._id } })

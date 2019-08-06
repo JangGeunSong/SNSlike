@@ -1,5 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { createReadStream ,createWriteStream, existsSync, mkdirSync } = require('fs');
+const path = require('path');
 
 const User = require('../../model/User');
 const Article = require('../../model/Article');
@@ -29,11 +31,17 @@ module.exports = {
         // create user method
         createUser: async (request, args) => {
             try {
+                // Only File name is sended. That is problem for fail to fetch error. I need to solve this problem!.
+                // const filename = args.userInput.profile_image;
                 const existingUser = await User.findOne({email: args.userInput.email});
                 if(existingUser) {
                     throw new Error('User exist already!')
                 }
                 const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
+                // await new Promise(response => {
+                //     createWriteStream(path.join(__dirname, "../static/images", filename))
+                //         .on("close", response)
+                // })
                 let user = new User({
                     name: args.userInput.name,
                     email: args.userInput.email,

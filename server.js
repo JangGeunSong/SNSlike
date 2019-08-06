@@ -1,8 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const path = require('path');
 const { ApolloServer } = require('apollo-server-express');
-const { graphqlUploadExpress } = require('graphql-upload');
 
 const typeDefs = require('./DAO/schema/schema');
 const resolvers = require('./DAO/resolver/merge');
@@ -22,12 +22,9 @@ server.applyMiddleware({
     path: "/",
 })
 
-app.use(
-    '/graphql',
-    graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 })
-)
-
 const port = process.env.PORT || 5500
+
+app.use("/static/images", express.static(path.join(__dirname, "/static/images")));
 
 mongoose.connect(`mongodb+srv://${process.env.MONGO_DB_USER_NAME}:${process.env.MONGO_DB_PASSWORD}@post-rdm59.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`, { useNewUrlParser: true })
     .then(

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Link from 'next/link'
 import { Mutation, ApolloConsumer } from 'react-apollo'
 import gql from 'graphql-tag'
+import Dropzone from 'react-dropzone'
 
 import './pageStyle.css'
 
@@ -9,9 +10,17 @@ import Navbar from '../components/Navbar/Navbar';
 
 class register extends Component {
 
-    state = {
-        isRegisterComplete: false,
-        name: null
+    constructor(props) {
+        super(props);
+        this.state = {
+            isRegisterComplete: false,
+            name: null,
+            files: [],
+        }
+        this.onDrop = (files) => {
+            this.setState({files})
+            console.log(files)
+        }
     }
 
     componentDidMount() {
@@ -34,7 +43,7 @@ class register extends Component {
             }
         `
 
-        let NAME, EMAIL, PASSWORD, PROFILE_IMG, PROFILE;
+        let NAME, EMAIL, PASSWORD, PROFILE;
 
         return (
             <div>
@@ -80,7 +89,7 @@ class register extends Component {
                                             return (
                                                 <form className="form__control" onSubmit={e => {
                                                     e.preventDefault();
-                                                    createuser({ variables: { name: NAME.value, email: EMAIL.value, password: PASSWORD.value, profile_image: PROFILE_IMG.value, profile: PROFILE.value } });
+                                                    createuser({ variables: { name: NAME.value, email: EMAIL.value, password: PASSWORD.value, profile_image: this.state.files[0].name, profile: PROFILE.value } });
                                                     this.setState({ isRegisterComplete: true, name: NAME.value });
                                                 }}>
                                                     <h1>Register Page</h1>
@@ -88,7 +97,14 @@ class register extends Component {
                                                     <input type="password" placeholder="password" ref={passwordValue => { PASSWORD = passwordValue }}/><br/>
                                                     <input type="text" placeholder="name" ref={nameValue => { NAME = nameValue }}/><br/>
                                                     <input type="text" placeholder="profile" ref={profileValue => { PROFILE = profileValue }}/><br/>
-                                                    <input type="text" placeholder="profile_image" ref={profileIMGValue => { PROFILE_IMG = profileIMGValue }}/><br/>
+                                                    <Dropzone onDrop={this.onDrop}>
+                                                        {({ getRootProps, getInputProps }) => (
+                                                            <div {...getRootProps({ className: 'dropzone' })}>
+                                                                <input {...getInputProps()} />
+                                                                <p>Drag 'n' drop some files here, or click to select files</p>
+                                                            </div>
+                                                        )}
+                                                    </Dropzone>
                                                     <button className="form__button">Submit</button><br/>
                                                 </form>
                                             )
