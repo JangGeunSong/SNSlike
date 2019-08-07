@@ -9,4 +9,6 @@ If you want to add the own MongoDB create the nodemon.json file and add some inf
 
 If you have any problem for admin then type
 
+File upload developing.
+
 >npm i --save
