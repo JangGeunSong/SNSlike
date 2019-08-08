@@ -30,10 +30,18 @@ module.exports =  typeDefs = gql`
     tokenExpiration: Int!
   }
 
+  # Define file type
+  type File {
+    filename: String!
+    mimetype: String!
+    encoding: String!
+  }
+
   # Define Query type
   type Query {
     articles: [Article]
     users: [User]
+    uploads: [File]
   }
 
   # Define userInput
@@ -41,7 +49,7 @@ module.exports =  typeDefs = gql`
     name: String!
     email: String!
     password: String!
-    profile_image: String
+    profile_image: File
     profile: String
   }
 

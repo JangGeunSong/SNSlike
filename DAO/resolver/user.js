@@ -32,21 +32,21 @@ module.exports = {
         createUser: async (request, args) => {
             try {
                 // Only File name is sended. That is problem for fail to fetch error. I need to solve this problem!.
-                // const filename = args.userInput.profile_image;
+                const userImage = args.userInput.profile_image;
                 const existingUser = await User.findOne({email: args.userInput.email});
                 if(existingUser) {
                     throw new Error('User exist already!')
                 }
                 const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
-                // await new Promise(response => {
-                //     createWriteStream(path.join(__dirname, "../static/images", filename))
-                //         .on("close", response)
-                // })
+                await new Promise(response => {
+                    createWriteStream(path.join(__dirname, "../static/images", userImage.filename))
+                        .on("close", response);
+                })
                 let user = new User({
                     name: args.userInput.name,
                     email: args.userInput.email,
                     password: hashedPassword,
-                    profile_image: args.userInput.profile_image,
+                    profile_image: args.userInput.profile_image.filename,
                     profile: args.userInput.profile,
                     // To avoid password send to plain text must create hash value 
                 });

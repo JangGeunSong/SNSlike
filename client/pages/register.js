@@ -36,7 +36,7 @@ class register extends Component {
     render() {
 
         const CREATE_USER = gql `
-            mutation createUser($name: String!, $email: String!, $password: String!, $profile_image: String, $profile: String) {
+            mutation createUser($name: String!, $email: String!, $password: String!, $profile_image: File, $profile: String) {
                 createUser(userInput: { name: $name, email: $email, password: $password, profile_image: $profile_image, profile: $profile }) {
                     _id
                 }
@@ -89,7 +89,7 @@ class register extends Component {
                                             return (
                                                 <form className="form__control" onSubmit={e => {
                                                     e.preventDefault();
-                                                    createuser({ variables: { name: NAME.value, email: EMAIL.value, password: PASSWORD.value, profile_image: this.state.files[0].name, profile: PROFILE.value } });
+                                                    createuser({ variables: { name: NAME.value, email: EMAIL.value, password: PASSWORD.value, profile_image: this.state.files[0], profile: PROFILE.value } });
                                                     this.setState({ isRegisterComplete: true, name: NAME.value });
                                                 }}>
                                                     <h1>Register Page</h1>
