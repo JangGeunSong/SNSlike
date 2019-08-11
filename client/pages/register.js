@@ -19,7 +19,7 @@ class register extends Component {
         }
         this.onDrop = (files) => {
             this.setState({files})
-            console.log(files)
+            console.log(files[0]);
         }
     }
 
@@ -36,7 +36,7 @@ class register extends Component {
     render() {
 
         const CREATE_USER = gql `
-            mutation createUser($name: String!, $email: String!, $password: String!, $profile_image: File, $profile: String) {
+            mutation createUser($name: String!, $email: String!, $password: String!, $profile_image: Upload, $profile: String) {
                 createUser(userInput: { name: $name, email: $email, password: $password, profile_image: $profile_image, profile: $profile }) {
                     _id
                 }
@@ -44,6 +44,8 @@ class register extends Component {
         `
 
         let NAME, EMAIL, PASSWORD, PROFILE;
+
+        let filename, mimetype, encoding;
 
         return (
             <div>
@@ -89,7 +91,16 @@ class register extends Component {
                                             return (
                                                 <form className="form__control" onSubmit={e => {
                                                     e.preventDefault();
-                                                    createuser({ variables: { name: NAME.value, email: EMAIL.value, password: PASSWORD.value, profile_image: this.state.files[0], profile: PROFILE.value } });
+                                                    filename = this.state.files[0].name;
+                                                    mimetype = this.state.files[0].type;
+                                                    encoding = "PNG";
+                                                    createuser({ variables: { 
+                                                        name: NAME.value, 
+                                                        email: EMAIL.value, 
+                                                        password: PASSWORD.value, 
+                                                        profile_image: this.state.files[0], 
+                                                        profile: PROFILE.value 
+                                                    } });
                                                     this.setState({ isRegisterComplete: true, name: NAME.value });
                                                 }}>
                                                     <h1>Register Page</h1>

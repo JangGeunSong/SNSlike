@@ -1,6 +1,7 @@
 # Very private infomation is blocked
 /node_modules
 nodemon.json
+/static
 
 # Client side important part is blocked
 /client/node_modules

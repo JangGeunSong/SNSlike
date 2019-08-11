@@ -38,15 +38,12 @@ module.exports = {
                     throw new Error('User exist already!')
                 }
                 const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
-                await new Promise(response => {
-                    createWriteStream(path.join(__dirname, "../static/images", userImage.filename))
-                        .on("close", response);
-                })
+                await createWriteStream(path.join(__dirname, "../../static/images", userImage.filename));
                 let user = new User({
                     name: args.userInput.name,
                     email: args.userInput.email,
                     password: hashedPassword,
-                    profile_image: args.userInput.profile_image.filename,
+                    profile_image: userImage.filename,
                     profile: args.userInput.profile,
                     // To avoid password send to plain text must create hash value 
                 });

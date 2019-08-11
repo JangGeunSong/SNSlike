@@ -49,8 +49,15 @@ module.exports =  typeDefs = gql`
     name: String!
     email: String!
     password: String!
-    profile_image: File
+    profile_image: Upload
     profile: String
+  }
+
+  # Define fileInput
+  input FileInput {
+    filename: String!
+    mimetype: String!
+    encoding: String!
   }
 
   # Define articleInput
