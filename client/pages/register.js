@@ -15,7 +15,7 @@ class register extends Component {
         this.state = {
             isRegisterComplete: false,
             name: null,
-            files: [],
+            files: null,
         }
         this.onDrop = (files) => {
             this.setState({files})
@@ -45,7 +45,7 @@ class register extends Component {
 
         let NAME, EMAIL, PASSWORD, PROFILE;
 
-        let filename, mimetype, encoding;
+        let profile_image;
 
         return (
             <div>
@@ -91,14 +91,12 @@ class register extends Component {
                                             return (
                                                 <form className="form__control" onSubmit={e => {
                                                     e.preventDefault();
-                                                    filename = this.state.files[0].name;
-                                                    mimetype = this.state.files[0].type;
-                                                    encoding = "PNG";
+                                                    profile_image = this.state.files[0];
                                                     createuser({ variables: { 
                                                         name: NAME.value, 
                                                         email: EMAIL.value, 
                                                         password: PASSWORD.value, 
-                                                        profile_image: this.state.files[0], 
+                                                        profile_image, 
                                                         profile: PROFILE.value 
                                                     } });
                                                     this.setState({ isRegisterComplete: true, name: NAME.value });
