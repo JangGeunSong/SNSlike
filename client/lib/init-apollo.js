@@ -1,5 +1,5 @@
 import { ApolloClient, InMemoryCache, HttpLink } from 'apollo-boost'
-import fetch from 'isomorphic-unfetch'
+import { createUploadLink } from 'apollo-upload-client'
 
 let apolloClient = null
 
@@ -9,15 +9,21 @@ function create (initialState) {
   return new ApolloClient({
     connectToDevTools: isBrowser,
     ssrMode: !isBrowser, // Disables forceFetch on the server (so queries are only run once)
-    link: new HttpLink({
-      uri: 'http://localhost:5500/graphql', // Server URL (must be absolute)
-      credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
-      // Use fetch() polyfill on the server
-      fetch: !isBrowser && fetch
+    link: createUploadLink({ 
+      uri: 'http://localhost:5500/graphql', 
+      credentials: 'same-origin', 
     }),
     cache: new InMemoryCache().restore(initialState || {}),
   })
 }
+
+// new HttpLink({
+//   uri: 'http://localhost:5500/graphql', // Server URL (must be absolute)
+//   credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
+//   // Use fetch() polyfill on the server
+//   fetch: !isBrowser && fetch
+// })    
+// ==> This method is not valid at apollo-upload-client scalar Upload type. Thus change the method createUploadLink from apollo-upload-client MUST BE!!!
 
 export default function initApollo (initialState) {
   // Make sure to create a new client for every server-side request so that data

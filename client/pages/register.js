@@ -19,7 +19,7 @@ class register extends Component {
         }
         this.onDrop = (files) => {
             this.setState({files})
-            console.log(files[0]);
+            console.log(this.state.files[0])
         }
     }
 
@@ -44,8 +44,6 @@ class register extends Component {
         `
 
         let NAME, EMAIL, PASSWORD, PROFILE;
-
-        let profile_image;
 
         return (
             <div>
@@ -91,12 +89,12 @@ class register extends Component {
                                             return (
                                                 <form className="form__control" onSubmit={e => {
                                                     e.preventDefault();
-                                                    profile_image = this.state.files[0];
+                                                    console.log(this.state.files[0]);
                                                     createuser({ variables: { 
                                                         name: NAME.value, 
                                                         email: EMAIL.value, 
                                                         password: PASSWORD.value, 
-                                                        profile_image, 
+                                                        profile_image: this.state.files[0], 
                                                         profile: PROFILE.value 
                                                     } });
                                                     this.setState({ isRegisterComplete: true, name: NAME.value });
@@ -107,10 +105,14 @@ class register extends Component {
                                                     <input type="text" placeholder="name" ref={nameValue => { NAME = nameValue }}/><br/>
                                                     <input type="text" placeholder="profile" ref={profileValue => { PROFILE = profileValue }}/><br/>
                                                     <Dropzone onDrop={this.onDrop}>
-                                                        {({ getRootProps, getInputProps }) => (
+                                                        {({ getRootProps, getInputProps, isDragActive }) => (
                                                             <div {...getRootProps({ className: 'dropzone' })}>
                                                                 <input {...getInputProps()} />
-                                                                <p>Drag 'n' drop some files here, or click to select files</p>
+                                                                {isDragActive ? 
+                                                                    (<p>File is on the page!</p>)
+                                                                    :
+                                                                    (<p>Drag 'n' drop some files here, or click to select files</p>)
+                                                                }
                                                             </div>
                                                         )}
                                                     </Dropzone>
