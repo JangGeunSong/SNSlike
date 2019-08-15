@@ -2,10 +2,7 @@ const { gql } = require('apollo-server-express');
 
 module.exports =  typeDefs = gql`
   # Comments in GraphQL are defined with the hash (#) symbol.
-
-  # Add scalar Upload this is automatically added but not working
-  scalar Upload
-
+  
   # Define article type
   type Article {
     _id: ID!
