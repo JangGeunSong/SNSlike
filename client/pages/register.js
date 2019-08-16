@@ -64,67 +64,72 @@ class register extends Component {
                     </div>
                 <Navbar />
                 <div className="contentContainer">
-                    {this.state.isRegisterComplete ? 
-                        (
-                            <div>
-                                <h1>create {this.state.name} is complete!</h1>
-                                <p>Please login</p>
-                                <Link href="/login"><a>Here</a></Link>
-                            </div>
-                        )
-                        :
-                        (
-                            <ApolloConsumer>
-                                {client => (
-                                    <Mutation
-                                        mutation={CREATE_USER}
-                                        onCompleted={() => {
-                                            this.setState({ isRegisterComplete: true });
-                                        }}
-                                    >
-                                        {(createuser, { loading, error }) => {
-                                            if(loading) return <p>Loading...</p>
-                                            if(error) return <p>Error is occured!</p>
+                    <ApolloConsumer>
+                        {client => (
+                            <Mutation
+                                mutation={CREATE_USER}
+                                onCompleted={() => {
+                                    this.setState({ isRegisterComplete: true });
+                                }}
+                            >
+                                {(createuser, { loading, error }) => {
+                                    if(loading) return <p>Loading...</p>
+                                    if(error) {
+                                        const errorMessage = error.graphQLErrors.map(({ message }, number) => (
+                                            <span key={number}>{message}</span>
+                                        ))
+                                        return (
+                                            <div>
+                                                {errorMessage}
+                                            </div>
+                                        )
+                                    }
 
-                                            return (
-                                                <form className="form__control" onSubmit={e => {
-                                                    e.preventDefault();
-                                                    console.log(this.state.files[0]);
-                                                    createuser({ variables: { 
-                                                        name: NAME.value, 
-                                                        email: EMAIL.value, 
-                                                        password: PASSWORD.value, 
-                                                        profile_image: this.state.files[0], 
-                                                        profile: PROFILE.value 
-                                                    } });
-                                                    this.setState({ isRegisterComplete: true, name: NAME.value });
-                                                }}>
-                                                    <h1>Register Page</h1>
-                                                    <input type="text" placeholder="email" ref={emailValue => { EMAIL = emailValue }}/><br/>
-                                                    <input type="password" placeholder="password" ref={passwordValue => { PASSWORD = passwordValue }}/><br/>
-                                                    <input type="text" placeholder="name" ref={nameValue => { NAME = nameValue }}/><br/>
-                                                    <input type="text" placeholder="profile" ref={profileValue => { PROFILE = profileValue }}/><br/>
-                                                    <Dropzone onDrop={this.onDrop}>
-                                                        {({ getRootProps, getInputProps, isDragActive }) => (
-                                                            <div {...getRootProps({ className: 'dropzone' })}>
-                                                                <input {...getInputProps()} />
-                                                                {isDragActive ? 
-                                                                    (<p>File is on the page!</p>)
-                                                                    :
-                                                                    (<p>Drag 'n' drop some files here, or click to select files</p>)
-                                                                }
-                                                            </div>
-                                                        )}
-                                                    </Dropzone>
-                                                    <button className="form__button">Submit</button><br/>
-                                                </form>
-                                            )
-                                        }}
-                                    </Mutation>
-                                )}
-                            </ApolloConsumer>
-                        )
-                    }
+                                    if(this.state.isRegisterComplete) return (
+                                        <div>
+                                            <h1>create {this.state.name} is complete!</h1>
+                                            <p>Please login</p>
+                                            <Link href="/login"><a>Here</a></Link>
+                                        </div>
+                                    )
+
+                                    return (
+                                        <form className="form__control" onSubmit={e => {
+                                            e.preventDefault();
+                                            console.log(this.state.files[0]);
+                                            createuser({ variables: { 
+                                                name: NAME.value, 
+                                                email: EMAIL.value, 
+                                                password: PASSWORD.value, 
+                                                profile_image: this.state.files[0], 
+                                                profile: PROFILE.value 
+                                            } });
+                                            this.setState({ isRegisterComplete: true, name: NAME.value });
+                                        }}>
+                                            <h1>Register Page</h1>
+                                            <input type="text" placeholder="email" ref={emailValue => { EMAIL = emailValue }}/><br/>
+                                            <input type="password" placeholder="password" ref={passwordValue => { PASSWORD = passwordValue }}/><br/>
+                                            <input type="text" placeholder="name" ref={nameValue => { NAME = nameValue }}/><br/>
+                                            <input type="text" placeholder="profile" ref={profileValue => { PROFILE = profileValue }}/><br/>
+                                            <Dropzone onDrop={this.onDrop}>
+                                                {({ getRootProps, getInputProps, isDragActive }) => (
+                                                    <div {...getRootProps({ className: 'dropzone' })}>
+                                                        <input {...getInputProps()} />
+                                                        {isDragActive ? 
+                                                            (<p>File is on the page!</p>)
+                                                            :
+                                                            (<p>Drag 'n' drop some files here, or click to select files</p>)
+                                                        }
+                                                    </div>
+                                                )}
+                                            </Dropzone>
+                                            <button className="form__button">Submit</button><br/>
+                                        </form>
+                                    )
+                                }}
+                            </Mutation>
+                        )}
+                    </ApolloConsumer>
                 </div>
             </div>
         )

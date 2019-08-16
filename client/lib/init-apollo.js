@@ -1,5 +1,6 @@
 import { ApolloClient, InMemoryCache, HttpLink } from 'apollo-boost'
 import { createUploadLink } from 'apollo-upload-client'
+import fetch from 'isomorphic-unfetch'
 
 let apolloClient = null
 
@@ -12,6 +13,7 @@ function create (initialState) {
     link: createUploadLink({ 
       uri: 'http://localhost:5500/graphql', 
       credentials: 'same-origin', 
+      fetch
     }),
     cache: new InMemoryCache().restore(initialState || {}),
   })
