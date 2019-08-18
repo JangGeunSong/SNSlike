@@ -12,3 +12,5 @@ If you have any problem for admin then type
 File upload developing.
 
 >npm i --save
+
+For file security, I ignore the static folder of the server side.
