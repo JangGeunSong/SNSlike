@@ -12,6 +12,11 @@
     max-width: 90%;
 }
 
+.Article__contents {
+    margin: 0;
+    padding: 0;
+}
+
 .Article h1, h2, p {
     margin: 0;
     padding: 0;
@@ -26,8 +31,35 @@
     border: none;
     outline: none;
     cursor: pointer;
+    float: right;
 }
 
 .Article__button:hover {
     background-color: #0953dd;
+}
+
+.User__container {
+    display: inline-block;
+    overflow: auto;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.User__name {
+    padding: 0;
+    margin-top: 1rem;
+    margin-bottom: 0;
+    width: 3rem;
+    height: 3rem;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.User__profile {
+    padding: 0;
+    margin: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 25px;
+    vertical-align: middle;
 }

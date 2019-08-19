@@ -27,12 +27,6 @@ class register extends Component {
         document.title = "Register"
     }
 
-    // name: String!
-    // email: String!
-    // password: String!
-    // profile_image: String
-    // profile: String
-
     render() {
 
         const CREATE_USER = gql `

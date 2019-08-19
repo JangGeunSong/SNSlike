@@ -15,7 +15,7 @@ export class CreateArticle extends Component {
         this.descriptionRef = React.createRef()
     }
 
-    // for the test grap the userId on the server side ==> 5d30310e42d0805df0c59a86
+    // for the test grap the userId on the server side ==> 5d59fd8311ccfa3008c0f696
 
     componentDidMount() {
         document.title = "CreateArticle"
@@ -24,7 +24,7 @@ export class CreateArticle extends Component {
     render() {
         const CREATE_ARTICLE = gql `
             mutation createArticle($title: String!, $description: String!){
-                createArticle(articleInput: {title: $title, description: $description, writer:"5d30310e42d0805df0c59a86"}) {
+                createArticle(articleInput: {title: $title, description: $description, writer:"5d59fd8311ccfa3008c0f696"}) {
                     _id
                     title
                     date

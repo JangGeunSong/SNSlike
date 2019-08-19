@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
 const { ApolloServer } = require('apollo-server-express');
+const { existsSync, mkdirSync } = require('fs') // Checking folder is exist and make folder if folder does not exist.
 
 const typeDefs = require('./DAO/schema/schema');
 const resolvers = require('./DAO/resolver/merge');
@@ -12,6 +13,12 @@ const app = express();
 app.use(bodyParser.json());
 
 const server = new ApolloServer({ typeDefs, resolvers });
+
+// If folder does not exist make directory using fs requring.
+existsSync(path.join(__dirname, "/static/images")) || mkdirSync(path.join(__dirname, "/static/images"));
+
+// Order is important for use static file sending.
+app.use("/static/images", express.static(path.join(__dirname, "/static/images")));
 
 server.applyMiddleware({ 
     app,
@@ -24,7 +31,6 @@ server.applyMiddleware({
 
 const port = process.env.PORT || 5500
 
-app.use("/static/images", express.static(path.join(__dirname, "/static/images")));
 
 mongoose.connect(`mongodb+srv://${process.env.MONGO_DB_USER_NAME}:${process.env.MONGO_DB_PASSWORD}@post-rdm59.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`, { useNewUrlParser: true })
     .then(

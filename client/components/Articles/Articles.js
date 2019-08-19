@@ -61,11 +61,15 @@ function Articles() {
                             >
                                 {deleteArticle => (
                                     <div className="Article">
-                                        <h1>{article.title}</h1>
-                                        <h2>{article.description}</h2>
-                                        <Moment format="LLLL" local>{article.date}</Moment>
-                                        <p>{article.writer.name}</p>
-                                        <img src={`http://localhost:5500/static/image/${article.writer.profile_image}`} alt={`${article.writer.name}'s image`}/>
+                                        <div className="Article__contents">
+                                            <h1>{article.title}</h1>
+                                            <h2>{article.description}</h2>
+                                            <Moment format="LLLL" local>{article.date}</Moment>
+                                        </div>
+                                        <div className="User__container">
+                                            <img className="User__profile" src={`http://localhost:5500/static/images/${article.writer.profile_image}`} alt={`${article.writer.name}'s image`}/>
+                                            <p className="User__name">{article.writer.name}</p>
+                                        </div>
                                         <button className="Article__button" onClick={e => {
                                             e.preventDefault();
                                             deleteArticle({ variables: { articleId: article._id } })
