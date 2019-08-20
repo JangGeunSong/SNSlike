@@ -5,6 +5,7 @@ import gql from 'graphql-tag'
 
 import './pageStyle.css'
 
+import Title from '../components/Title/Title'
 import Navbar from '../components/Navbar/Navbar';
 
 class login extends Component {
@@ -22,6 +23,7 @@ class login extends Component {
             mutation login($email: String!, $password: String!){
                 login(loginInput: {email: $email, password: $password}){
                     userId
+                    userName
                     token
                     tokenExpiration
                 }
@@ -33,21 +35,7 @@ class login extends Component {
 
         return (
             <div>
-                <div className="title">
-                        <Link href="/"><a>Title</a></Link>
-                        <div className="button__bundle">
-                            <Link href="/login">
-                                <button className="title__login">
-                                    <a>Login</a>
-                                </button>
-                            </Link>
-                            <Link href="/register">
-                                <button className="title__register">
-                                    <a>Sign Up</a>
-                                </button>
-                            </Link>
-                        </div>
-                    </div>
+                <Title />
                 <Navbar />
                 <div className="contentContainer">
                     {this.state.isLoginComplete ?
@@ -67,8 +55,17 @@ class login extends Component {
                                         console.log(login)
                                         localStorage.setItem('token', login.token);
                                         localStorage.setItem('tokenExpiration', login.tokenExpiration);
+                                        localStorage.setItem('userName', login.userName);
                                         localStorage.setItem('userId', login.userId);
                                         this.setState({ isLoginComplete: true });
+                                        client.cache.writeData({
+                                            data: {
+                                                token: login.token,
+                                                tokenExpiration: login.tokenExpiration,
+                                                useName: login.userName,
+                                                userId: login.userId,
+                                            },
+                                        })
                                     }}
                                 >
                                     {(login, { loading, error }) => {

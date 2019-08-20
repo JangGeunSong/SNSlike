@@ -4,6 +4,7 @@ import Link from 'next/link'
 
 import './pageStyle.css';
 
+import Title from '../components/Title/Title'
 import Navbar from '../components/Navbar/Navbar';
 import Articles from '../components/Articles/Articles';
 
@@ -23,45 +24,10 @@ class index extends Component {
         }
     }
 
-    logout = () => {
-        localStorage.clear();
-        this.setState({ isLoggedIn: false })
-    }
-
     render() {
         return (
             <div className="home">
-                <div className="title">
-                    <Link href="/"><a>Title</a></Link>
-                    {this.state.isLoggedIn ?
-                    (
-                        <div className="button__bundle">
-                            <button className="title__login">
-                                <p>Hello {localStorage.getItem('userId')}</p>
-                            </button>
-                            <button className="title__register" onClick={this.logout}>
-                                <a>Logout</a>
-                            </button>
-                        </div>
-                    )
-                    :
-                    (
-                        <div className="button__bundle">
-                            <Link href="/login">
-                                <button className="title__login">
-                                    <a>Login</a>
-                                </button>
-                            </Link>
-                            <Link href="/register">
-                                <button className="title__register">
-                                    <a>Sign Up</a>
-                                </button>
-                            </Link>
-                        </div>
-                    )
-                    }
-                    
-                </div>
+                <Title />
                 <Navbar />
                 <React.Fragment>
                     {this.state.isLoggedIn ? 

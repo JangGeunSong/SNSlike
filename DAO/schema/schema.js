@@ -26,6 +26,7 @@ module.exports =  typeDefs = gql`
   # Define Authentication type
   type AuthData {
     userId: ID!
+    userName: String!
     token: String!
     tokenExpiration: Int!
   }

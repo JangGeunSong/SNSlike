@@ -6,6 +6,7 @@ import Dropzone from 'react-dropzone'
 
 import './pageStyle.css'
 
+import Title from '../components/Title/Title'
 import Navbar from '../components/Navbar/Navbar';
 
 class register extends Component {
@@ -41,21 +42,7 @@ class register extends Component {
 
         return (
             <div>
-                <div className="title">
-                        <Link href="/"><a>Title</a></Link>
-                        <div className="button__bundle">
-                            <Link href="/login">
-                                <button className="title__login">
-                                    <a>Login</a>
-                                </button>
-                            </Link>
-                            <Link href="/register">
-                                <button className="title__register">
-                                    <a>Sign Up</a>
-                                </button>
-                            </Link>
-                        </div>
-                    </div>
+                <Title />
                 <Navbar />
                 <div className="contentContainer">
                     <ApolloConsumer>
