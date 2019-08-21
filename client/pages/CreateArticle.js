@@ -16,12 +16,18 @@ export class CreateArticle extends Component {
         this.state = {
             userId: null,
             files: [],
+            fileNames: [],
+            isEmpty: true,
         }
         this.titleRef = React.createRef()
         this.descriptionRef = React.createRef()
         this.onDrop = (files) => {
+            if(this.state.isEmpty) this.setState({ isEmpty: !this.state.isEmpty });
             this.setState(prevState => ({
                 files: [...prevState.files, files[0]]
+            }))
+            this.setState(prevState => ({
+                fileNames: [...prevState.fileNames, files[0].path]
             }))
             console.log(this.state.files);
         }
@@ -39,8 +45,8 @@ export class CreateArticle extends Component {
 
     render() {
         const CREATE_ARTICLE = gql `
-            mutation createArticle($title: String!, $description: String!, $writer: String!){
-                createArticle(articleInput: {title: $title, description: $description, writer: $writer}) {
+            mutation createArticle($title: String!, $description: String!, $writer: String!, $images: [Upload], $fileNames: [String]){
+                createArticle(articleInput: {title: $title, description: $description, writer: $writer, images: $images, fileNames: $fileNames}) {
                     _id
                     title
                     date
@@ -51,7 +57,6 @@ export class CreateArticle extends Component {
                 }
             }
         `   
-
         const fileList = this.state.files.map( (file) => (
             <li key={file.path}>
                 {file.path} - {file.size} bytes
@@ -77,11 +82,11 @@ export class CreateArticle extends Component {
                                                 variables: {
                                                     title: this.titleRef.current.value,
                                                     description: this.descriptionRef.current.value,
-                                                    writer: this.state.userId
+                                                    writer: this.state.userId,
+                                                    images: this.state.files,
+                                                    fileNames: this.state.fileNames,
                                                 } 
                                             });
-                                            console.log(e.target);
-                                            window.location.reload();
                                         }}
                                     >
                                         <div className="form__control">
@@ -106,9 +111,18 @@ export class CreateArticle extends Component {
                                         </Dropzone>
                                         <button className="form__button" type="submit">Submit</button>
                                     </form>
-                                    <aside>
-                                        {fileList}
-                                    </aside>
+                                    {this.state.isEmpty ? 
+                                    (
+                                        <p>Please upload your picture!</p>
+                                    )
+                                    :
+                                    (
+                                        <aside>
+                                            {fileList}
+                                        </aside>
+                                    )
+                                    }
+                                    
                                 </div>
                             )}
                         </Mutation>

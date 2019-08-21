@@ -1,6 +1,6 @@
 const Article = require('../../model/Article');
 const User = require('../../model/User');
-const { createWriteStream } = require('fs');
+const { createWriteStream, unlinkSync } = require('fs');
 const path = require('path');
 
 async function findtargetUser (userId) {
@@ -18,7 +18,8 @@ module.exports = {
                         title: article.title,
                         writer: findtargetUser(article.writer),
                         date: new Date(article.date).toISOString(),
-                        description: article.description
+                        description: article.description,
+                        images: article.images,
                     };
                 }); 
             } 
@@ -30,13 +31,15 @@ module.exports = {
     Mutation: {
         // create Article method
         createArticle: async (request, args) => {
-            // const articleImages = await args.articleInput.images;
+            const articleImages = await args.articleInput.images;
+            const filenames = await args.articleInput.fileNames;
+            console.log(filenames);
             let article = new Article({
                 title: args.articleInput.title,
                 description: args.articleInput.description,
                 date: new Date().toISOString(),
                 writer: args.articleInput.writer,
-                // images: args.articleInput.images.filename,
+                images: filenames,
             });
             // Don't need the _id field because it will create automatically by mongodb
             let createdArticle;
@@ -47,12 +50,16 @@ module.exports = {
                     _id: result.id, 
                     date: new Date(result._doc.date).toISOString(),
                     writer: result._doc.writer,
-                    // images: result._doc.images,
+                    images: result._doc.images,
                 };
-                // articleImages.map((createReadStream, filename, mimetype, encoding) => {
-                //     await createReadStream()
-                //         .pipe(createWriteStream(path.join(__dirname, `../../static/article`, filename)));
-                // });
+                articleImages.map((image) => {
+                    image
+                        .then(({ filename, mimetype, encoding, createReadStream }) => {
+                            createReadStream()
+                                .pipe(createWriteStream(path.join(__dirname, '../../static/article', filename)))
+                        })
+                        .catch(err => console.log(err))
+                });
                 const writer = await User.findById(args.articleInput.writer);
                 if(!writer) {
                     throw new Error('User not found!')
@@ -75,6 +82,7 @@ module.exports = {
                 // if(!writer) {
                 //     throw new Error('Creator not found!');
                 // }
+                const images = result._doc.images;
                 targetArticle = {
                     ...result._doc,
                     _id: result._id,
@@ -82,6 +90,15 @@ module.exports = {
                     description: result._doc.description,                    
                     date: new Date(result._doc.date).toISOString(),
                     writer: writer,
+                }
+                if(images !== null) {
+                    images.map((image) => {
+                        try {
+                            unlinkSync(path.join(__dirname, `../../static/article`, image))
+                        } catch (error) {
+                            throw error
+                        }
+                    })
                 }
                 return targetArticle;
             } 

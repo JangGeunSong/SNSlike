@@ -12,7 +12,8 @@ function Articles() {
                 _id
                 title
                 description
-                date
+                date,
+                images,
                 writer {
                     name
                     profile_image
@@ -45,41 +46,63 @@ function Articles() {
 
                 return (
                     <div className="Articles">
-                        {resultArticle.map(article => (
-                            <Mutation 
-                                key={article._id} 
-                                mutation={DELETE_ARTICLE}
-                                refetchQueries={() => {
-                                    console.log("Refetch Query run");
-                                    return [
-                                        {
-                                            query: GET_ARTICLES,
-                                            variables: resultArticle
-                                        }
-                                    ]
-                                }}
-                            >
-                                {deleteArticle => (
-                                    <div className="Article">
-                                        <div className="Article__contents">
-                                            <h1>{article.title}</h1>
-                                            <h2>{article.description}</h2>
-                                            <Moment format="LLLL" local>{article.date}</Moment>
+                        {resultArticle.map(article => {
+                            let isImageEmpty = true;
+                            let articleImage = <p></p>;
+                            if(article.images === null) {
+                                isImageEmpty = true;
+                            }
+                            else {
+                                isImageEmpty = false;
+                                articleImage = article.images.map((image, number)=> (
+                                    <img className="Article__image" key={number} src={`http://localhost:5500/static/article/${image}`} alt={`${image}`}/>
+                                ))
+                            }
+                            return (
+                                <Mutation 
+                                    key={article._id} 
+                                    mutation={DELETE_ARTICLE}
+                                    refetchQueries={() => {
+                                        console.log("Refetch Query run");
+                                        return [
+                                            {
+                                                query: GET_ARTICLES,
+                                                variables: resultArticle
+                                            }
+                                        ]
+                                    }}
+                                >
+                                    {deleteArticle => (
+                                        <div className="Article">
+                                            <div className="Article__contents">
+                                                <h1>{article.title}</h1>
+                                                {isImageEmpty ? 
+                                                (<p></p>)
+                                                :
+                                                (
+                                                    <div className="Article__imageCage">
+                                                        {articleImage}
+                                                    </div>
+                                                )
+                                                }
+                                                <h2>{article.description}</h2>
+                                                <Moment format="LLLL" local>{article.date}</Moment>
+                                            </div>
+                                            <div className="User__container">
+                                                <img className="User__profile" src={`http://localhost:5500/static/images/${article.writer.profile_image}`} alt={`${article.writer.name}'s image`}/>
+                                                <p className="User__name">{article.writer.name}</p>
+                                            </div>
+                                            <button className="Article__button" onClick={e => {
+                                                e.preventDefault();
+                                                deleteArticle({ variables: { articleId: article._id } })
+                                            }}>
+                                                Delete
+                                            </button>
                                         </div>
-                                        <div className="User__container">
-                                            <img className="User__profile" src={`http://localhost:5500/static/images/${article.writer.profile_image}`} alt={`${article.writer.name}'s image`}/>
-                                            <p className="User__name">{article.writer.name}</p>
-                                        </div>
-                                        <button className="Article__button" onClick={e => {
-                                            e.preventDefault();
-                                            deleteArticle({ variables: { articleId: article._id } })
-                                        }}>
-                                            Delete
-                                        </button>
-                                    </div>
-                                )}                                    
-                            </Mutation>
-                        ))}
+                                    )}                                    
+                                </Mutation>
+                            )
+                        })}
                     </div>                        
                 );
             }}

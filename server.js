@@ -17,8 +17,14 @@ const server = new ApolloServer({ typeDefs, resolvers });
 // If folder does not exist make directory using fs requring.
 existsSync(path.join(__dirname, "/static/images")) || mkdirSync(path.join(__dirname, "/static/images"));
 
+// If folder does not exist make directory using fs requring.
+existsSync(path.join(__dirname, "/static/article")) || mkdirSync(path.join(__dirname, "/static/article"));
+
 // Order is important for use static file sending.
 app.use("/static/images", express.static(path.join(__dirname, "/static/images")));
+
+// Order is important for use static file sending.
+app.use("/static/article", express.static(path.join(__dirname, "/static/article")));
 
 server.applyMiddleware({ 
     app,
