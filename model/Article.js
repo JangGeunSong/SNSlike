@@ -20,6 +20,12 @@ const Article = new Schema({
         type: String,
         required: true,
     },
+    // images: [
+    //     {
+    //         type: String,
+    //         required: false,
+    //     }
+    // ],
 })
 
 module.exports = mongoose.model('Article', Article)

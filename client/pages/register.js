@@ -40,6 +40,12 @@ class register extends Component {
 
         let NAME, EMAIL, PASSWORD, PROFILE;
 
+        const fileList = this.state.files.map( (file) => (
+            <li key={file.path}>
+                {file.path} - {file.size} bytes
+            </li>
+        ))
+
         return (
             <div>
                 <Title />
@@ -105,6 +111,9 @@ class register extends Component {
                                                 )}
                                             </Dropzone>
                                             <button className="form__button">Submit</button><br/>
+                                            <aside>
+                                                {fileList}
+                                            </aside>
                                         </form>
                                     )
                                 }}

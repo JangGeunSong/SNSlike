@@ -40,7 +40,8 @@ module.exports = {
                 }
                 const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
                 await createReadStream()
-                    .pipe(createWriteStream(path.join(__dirname, "../../static/images", filename)));
+                    .pipe(createWriteStream(path.join(__dirname, `../../static/images`, filename)));
+                // Now image files are need to separate for usage. So I will replace name images -> profile
                 let user = new User({
                     name: args.userInput.name,
                     email: args.userInput.email,

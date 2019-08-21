@@ -1,5 +1,7 @@
 const Article = require('../../model/Article');
 const User = require('../../model/User');
+const { createWriteStream } = require('fs');
+const path = require('path');
 
 async function findtargetUser (userId) {
     return await User.findById(userId);
@@ -28,11 +30,13 @@ module.exports = {
     Mutation: {
         // create Article method
         createArticle: async (request, args) => {
+            // const articleImages = await args.articleInput.images;
             let article = new Article({
                 title: args.articleInput.title,
                 description: args.articleInput.description,
                 date: new Date().toISOString(),
-                writer: args.articleInput.writer
+                writer: args.articleInput.writer,
+                // images: args.articleInput.images.filename,
             });
             // Don't need the _id field because it will create automatically by mongodb
             let createdArticle;
@@ -42,8 +46,13 @@ module.exports = {
                     ...result._doc, 
                     _id: result.id, 
                     date: new Date(result._doc.date).toISOString(),
-                    writer: result._doc.writer
+                    writer: result._doc.writer,
+                    // images: result._doc.images,
                 };
+                // articleImages.map((createReadStream, filename, mimetype, encoding) => {
+                //     await createReadStream()
+                //         .pipe(createWriteStream(path.join(__dirname, `../../static/article`, filename)));
+                // });
                 const writer = await User.findById(args.articleInput.writer);
                 if(!writer) {
                     throw new Error('User not found!')

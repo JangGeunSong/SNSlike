@@ -10,6 +10,7 @@ module.exports =  typeDefs = gql`
     writer: User!
     date: String!
     description: String!
+    # images: [String]
   }
 
   # Define user type
@@ -59,6 +60,7 @@ module.exports =  typeDefs = gql`
     title: String!
     description: String!
     writer: String!
+    # images: [Upload]
   }
 
   # Define loginInput
