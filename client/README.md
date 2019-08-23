@@ -14,4 +14,4 @@ This show the article only members. So it needs regist the user and see the cont
 
 Drag & drop upload system add.
 
-file upload is complete. Now user image and file will receive from the server.
+file upload is complete. Now user image and file will receive from the server. This images are going to add  the slide show

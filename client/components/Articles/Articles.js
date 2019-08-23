@@ -49,6 +49,7 @@ function Articles() {
                         {resultArticle.map(article => {
                             let isImageEmpty = true;
                             let articleImage = <p></p>;
+                            const imageSlide = null;
                             if(article.images === null) {
                                 isImageEmpty = true;
                             }
