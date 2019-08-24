@@ -35,7 +35,12 @@ function Articles() {
                 }
             }
         }
-    `
+    ` 
+
+    const articleImageShowing = (articleImages) => {
+        return articleImages
+    }
+
     return (
         <Query query={GET_ARTICLES}>
             {({ loading, error, data }) => {
@@ -49,15 +54,28 @@ function Articles() {
                         {resultArticle.map(article => {
                             let isImageEmpty = true;
                             let articleImage = <p></p>;
-                            const imageSlide = null;
+                            let recentIndex = 0;
+                            let imageNumber = 0;
+                            const showStyle = {display: 'block'}  
+                            const noShowStyle = {display: 'none'}  
                             if(article.images === null) {
                                 isImageEmpty = true;
                             }
                             else {
                                 isImageEmpty = false;
-                                articleImage = article.images.map((image, number)=> (
-                                    <img className="Article__image" key={number} src={`http://localhost:5500/static/article/${image}`} alt={`${image}`}/>
-                                ))
+                                imageNumber = article.images.length;
+                                articleImage = article.images.map((image, number)=> {
+                                    if(number === 0) {
+                                        return (
+                                            <img className="Article__image" key={number} style={showStyle} src={`http://localhost:5500/static/article/${image}`} alt={`${image}`}/>
+                                        )
+                                    }
+                                    else {
+                                        return (
+                                            <img className="Article__image" key={number} style={noShowStyle} src={`http://localhost:5500/static/article/${image}`} alt={`${image}`}/>
+                                        )
+                                    }
+                                })
                             }
                             return (
                                 <Mutation 
@@ -86,6 +104,31 @@ function Articles() {
                                                     </div>
                                                 )
                                                 }
+                                                <button className="Article__button" onClick={e => {
+                                                    e.preventDefault();
+                                                    const prevNum = recentIndex;
+                                                    recentIndex++;
+                                                    if(recentIndex > imageNumber) {
+                                                        recentIndex = 0;
+                                                    }
+                                                    articleImage = article.images.map((image, number)=> {
+                                                        if(number === recentIndex) {
+                                                            return (
+                                                                <img className="Article__image" key={number} style={showStyle} src={`http://localhost:5500/static/article/${image}`} alt={`${image}`}/>
+                                                            )
+                                                        }
+                                                        else if(number === prevNum) {
+                                                            return (
+                                                                <img className="Article__image" key={number} style={noShowStyle} src={`http://localhost:5500/static/article/${image}`} alt={`${image}`}/>
+                                                            )
+                                                        }
+                                                        else {
+                                                            return (
+                                                                <img className="Article__image" key={number} style={noShowStyle} src={`http://localhost:5500/static/article/${image}`} alt={`${image}`}/>
+                                                            )
+                                                        }
+                                                    })
+                                                }}>next</button>
                                                 <h2>{article.description}</h2>
                                                 <Moment format="LLLL" local>{article.date}</Moment>
                                             </div>
