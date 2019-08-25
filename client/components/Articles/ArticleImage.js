@@ -16,23 +16,7 @@ export class ArticleImage extends Component {
         display: 'none'
     }
 
-    componentDidMount() {
-        this.imageLists = this.state.images.map((image, number) => {
-            if(number === this.state.tarNum) {
-                return (
-                    <img className="Article__image" key={number} style={ this.showImage } src={`http://localhost:5500/static/article/${image}`} alt={`${image}`}/>
-                )
-            }
-            else {
-                return (
-                    <img className="Article__image" key={number} style={ this.noShowImage } src={`http://localhost:5500/static/article/${image}`} alt={`${image}`}/>
-                )
-            }
-        });
-    }
-
     render() {
-        console.log(this.state.tarNum)
         return (
             <div>
                 {

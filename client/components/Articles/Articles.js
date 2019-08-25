@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Query, Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import Moment from 'react-moment'
@@ -7,9 +7,9 @@ import ArticleImage from './ArticleImage';
 
 import './Articles.css'
 
-class Articles extends Component {
+function Articles() {
 
-    GET_ARTICLES = gql`
+    const GET_ARTICLES = gql`
         query {
             articles {
                 _id
@@ -25,7 +25,7 @@ class Articles extends Component {
         }
     `;
 
-    DELETE_ARTICLE = gql`
+    const DELETE_ARTICLE = gql`
         mutation deleteArticle ($articleId: ID!) {
             deleteArticle(articleId: $articleId) {
                 _id
@@ -40,67 +40,59 @@ class Articles extends Component {
         }
     ` ;
 
-    componentDidMount() {
+    return (
+        <Query query={GET_ARTICLES}>
+            {({ loading, error, data }) => {
+                if (loading) return 'Loading...';
+                if (error) return `Error! ${error.message}`;
 
-    }
+                let resultArticle = data.articles;
 
-    render() {
-        return (
-            <Query query={this.GET_ARTICLES}>
-                {({ loading, error, data }) => {
-                    if (loading) return 'Loading...';
-                    if (error) return `Error! ${error.message}`;
-
-                    let resultArticle = data.articles;
-
-                    return (
-                        <div className="Articles">
-                            {resultArticle.map(article => {
-                                const imageNum = article.images.length;
-                                let tarnum = 0;
-                                return (
-                                    <Mutation 
-                                        key={article._id} 
-                                        mutation={this.DELETE_ARTICLE}
-                                        refetchQueries={() => {
-                                            console.log("Refetch Query run");
-                                            return [
-                                                {
-                                                    query: this.GET_ARTICLES,
-                                                    variables: resultArticle
-                                                }
-                                            ]
-                                        }}
-                                    >
-                                        {deleteArticle => (
-                                            <div className="Article">
-                                                <div className="Article__contents">
-                                                    <h1>{article.title}</h1>
-                                                    <ArticleImage images={article.images}/>
-                                                    <h2>{article.description}</h2>
-                                                    <Moment format="LLLL" local>{article.date}</Moment>
-                                                </div>
-                                                <div className="User__container">
-                                                    <img className="User__profile" src={`http://localhost:5500/static/images/${article.writer.profile_image}`} alt={`${article.writer.name}'s image`}/>
-                                                    <p className="User__name">{article.writer.name}</p>
-                                                </div>
-                                                <button className="Article__button" onClick={e => {
-                                                    e.preventDefault();
-                                                    deleteArticle({ variables: { articleId: article._id } })
-                                                }}>
-                                                    Delete
-                                                </button>
+                return (
+                    <div className="Articles">
+                        {resultArticle.map(article => {
+                            return (
+                                <Mutation 
+                                    key={article._id} 
+                                    mutation={DELETE_ARTICLE}
+                                    refetchQueries={() => {
+                                        console.log("Refetch Query run");
+                                        return [
+                                            {
+                                                query: GET_ARTICLES,
+                                                variables: resultArticle
+                                            }
+                                        ]
+                                    }}
+                                >
+                                    {deleteArticle => (
+                                        <div className="Article">
+                                            <div className="Article__contents">
+                                                <h1>{article.title}</h1>
+                                                <ArticleImage images={article.images}/>
+                                                <h2>{article.description}</h2>
+                                                <Moment format="LLLL" local>{article.date}</Moment>
                                             </div>
-                                        )}                                    
-                                    </Mutation>
-                                )
-                            })}
-                        </div>                        
-                    );
-                }}
-            </Query>
-        )
-    }
+                                            <div className="User__container">
+                                                <img className="User__profile" src={`http://localhost:5500/static/images/${article.writer.profile_image}`} alt={`${article.writer.name}'s image`}/>
+                                                <p className="User__name">{article.writer.name}</p>
+                                            </div>
+                                            <button className="Article__button" onClick={e => {
+                                                e.preventDefault();
+                                                deleteArticle({ variables: { articleId: article._id } })
+                                            }}>
+                                                Delete
+                                            </button>
+                                        </div>
+                                    )}                                    
+                                </Mutation>
+                            )
+                        })}
+                    </div>                        
+                );
+            }}
+        </Query>
+    )
 }
 
 export default Articles
