@@ -44,6 +44,7 @@ module.exports =  typeDefs = gql`
     articles: [Article]
     users: [User]
     uploads: [File]
+    user: User
   }
 
   # Define userInput
@@ -76,6 +77,9 @@ module.exports =  typeDefs = gql`
     createArticle(articleInput: ArticleInput): Article
     deleteArticle(articleId: ID!): Article
     login(loginInput: LoginInput!): AuthData
+    deleteUser(userId: ID!): User
+    updateUser(userId: ID!, userInput: UserInput): User 
+    updateArticle(articleId: ID!, articleInput: ArticleInput): Article
   }
 
 `;

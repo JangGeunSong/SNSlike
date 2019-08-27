@@ -25,6 +25,16 @@ module.exports = {
             catch (error) {
                 throw error;
             }
+        },
+        user: async (request, args) => {
+            const userId = args.userId;
+            try {
+                const targetUser = await User.findOne(userId);
+                return targetUser;    
+            } 
+            catch (error) {
+                throw error;
+            }
         }
     },
     Mutation: {
@@ -77,6 +87,46 @@ module.exports = {
             } 
             catch (error) {
                 throw err;
+            }
+        },
+        // delete User
+        deleteUser: async (request, args) => {
+            const userId = args.userId;
+            let targetUser;
+            try {
+                const result = await User.findById(userId).populate('user');
+                await User.deleteOne({ _id: userId });
+                targetUser = {
+                    ...result._doc,
+                    _id: result._id,
+                    name: result._doc.name,
+                    email: result._doc.email
+                }
+                return targetUser;
+            } 
+            catch (error) {
+                throw error;
+            }
+        },
+        updateUser: async (request, args) => {
+            const userId = args.userId;
+            let updateContent;
+            let newPassword = await bcrypt.hash(args.userInput.password, 12);
+            try {
+                updateContent = {
+                    name: args.userInput.name,
+                    password: newPassword,
+                    profile: args.userInput.profile,
+                    profile_image: args.userInput.profile_image,
+                }
+                await User.findByIdAndUpdate(userId, updateContent, { new: true }, (error) => {
+                    if(error) {
+                        throw error;
+                    }
+                });
+            } 
+            catch (error) {
+                throw error    
             }
         }
     },

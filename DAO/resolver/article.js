@@ -72,6 +72,7 @@ module.exports = {
                 throw err;
             }
         },
+        // delete article
         deleteArticle: async (request, args) => {
             const articleId = args.articleId;
             let targetArticle;
@@ -104,6 +105,25 @@ module.exports = {
             } 
             catch (err) {
                 throw err
+            }
+        },
+        // update article
+        updateArticle: async (request, args) => {
+            const articleId = args.articleId;
+            const updateContent = {
+                title: args.articleInput.title,
+                description: args.articleInput.description,                    
+                date: new Date(args.articleInput.date).toISOString()
+            }
+            try {
+                Article.findByIdAndUpdate(articleId, updateContent, { new: true }, (error) => {
+                    if(error) {
+                        throw error;
+                    }
+                });
+            } 
+            catch (error) {
+                throw error    
             }
         }
     },
