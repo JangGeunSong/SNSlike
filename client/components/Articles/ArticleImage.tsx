@@ -2,7 +2,11 @@ import React, { Component } from 'react'
 
 import './Articles.css'
 
-export class ArticleImage extends Component {
+type ImageProps = {
+    images: [string];
+};
+
+export class ArticleImage extends Component<ImageProps> {
     state = {
         images: this.props.images,
         tarNum: 0,

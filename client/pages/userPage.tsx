@@ -39,14 +39,14 @@ export class userPage extends Component {
                 <React.Fragment>
                     <Mutation 
                         mutation={UPDATE_USER}
-                        onCompleted={({ updateUser }) => {
+                        onCompleted={({ updateUser }: any) => {
                             localStorage.setItem('userName', updateUser.name);
                         }}
                     >
-                        {(updateUser, { loading, error }) => {
+                        {(updateUser: any, { loading, error }: any) => {
                                     if(loading) return <p>Loading...</p>
                                     if(error) {
-                                        const errorMessage = error.graphQLErrors.map(({ message }, number) => (
+                                        const errorMessage = error.graphQLErrors.map(({ message }: any, number: any) => (
                                             <span key={number}>{message}</span>
                                         ))
                                         return (
@@ -56,10 +56,10 @@ export class userPage extends Component {
                                         )
                                     }
 
-                                    let EMAIL
-                                    let PASSWORD;
-                                    let PROFILE;
-                                    let NAME;
+                                    let EMAIL: string;
+                                    let PASSWORD: string;
+                                    let PROFILE: string;
+                                    let NAME: string;
 
                                     return (
                                         <div className="contentContainer">
@@ -67,18 +67,38 @@ export class userPage extends Component {
                                                 e.preventDefault();
                                                 updateUser({ variables: { 
                                                     userId: localStorage.getItem('userId'),
-                                                    name: NAME.value, 
-                                                    email: EMAIL.value, 
-                                                    password: PASSWORD.value, 
-                                                    profile: PROFILE.value 
+                                                    name: NAME, 
+                                                    email: EMAIL, 
+                                                    password: PASSWORD, 
+                                                    profile: PROFILE 
                                                 } });
                                             }}>
                                                 <h1>Update User</h1>
                                                 <p>Change your account details.</p><br></br>
-                                                <input type="text" placeholder="email" ref={emailValue => { EMAIL = emailValue }}/><br/>
-                                                <input type="password" placeholder="password" ref={passwordValue => { PASSWORD = passwordValue }}/><br/>
-                                                <input type="text" placeholder="name" ref={nameValue => { NAME = nameValue }}/><br/>
-                                                <input type="text" placeholder="profile" ref={profileValue => { PROFILE = profileValue }}/><br/>
+                                                <input type="text" placeholder="email" ref={emailValue => { 
+                                                    EMAIL = '';
+                                                    if(emailValue !== null) {
+                                                        EMAIL = emailValue.value;
+                                                    } 
+                                                }}/><br/>
+                                                <input type="password" placeholder="password" ref={passwordValue => { 
+                                                    PASSWORD = '';
+                                                    if(passwordValue !== null) {
+                                                        PASSWORD = passwordValue.value;
+                                                    } 
+                                                }}/><br/>
+                                                <input type="text" placeholder="name" ref={nameValue => { 
+                                                    NAME = '';
+                                                    if(nameValue !== null) {
+                                                        NAME = nameValue.value;
+                                                    } 
+                                                }}/><br/>
+                                                <input type="text" placeholder="profile" ref={profileValue => { 
+                                                    PROFILE = '';
+                                                    if(profileValue !== null) {
+                                                        PROFILE = profileValue.value;
+                                                    } 
+                                                }}/><br/>
                                             </form>
                                         </div>
                                     )

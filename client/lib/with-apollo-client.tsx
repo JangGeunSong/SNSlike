@@ -1,12 +1,14 @@
 import React from 'react'
 import initApollo from './init-apollo'
 import Head from 'next/head'
+import { ApolloClient, NormalizedCacheObject } from 'apollo-boost'
 import { getDataFromTree } from 'react-apollo'
 
-export default App => {
+export default (App: any) => {
   return class Apollo extends React.Component {
+    apolloClient: ApolloClient<NormalizedCacheObject>
     static displayName = 'withApollo(App)'
-    static async getInitialProps (ctx) {
+    static async getInitialProps (ctx: any) {
       const { Component, router } = ctx
 
       let appProps = {}
@@ -14,9 +16,11 @@ export default App => {
         appProps = await App.getInitialProps(ctx)
       }
 
+      let initialState:any = null;
+
       // Run all GraphQL queries in the component tree
       // and extract the resulting data
-      const apollo = initApollo()
+      const apollo = initApollo(initialState)
       if (typeof window === 'undefined') {
         try {
           // Run all GraphQL queries
@@ -49,7 +53,7 @@ export default App => {
       }
     }
 
-    constructor (props) {
+    constructor (props: any) {
       super(props)
       this.apolloClient = initApollo(props.apolloState)
     }

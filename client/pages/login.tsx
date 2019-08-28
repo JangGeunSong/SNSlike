@@ -30,8 +30,8 @@ class login extends Component {
             }
         `
 
-        let EMAIL;
-        let PASSWORD;
+        let EMAIL: string;
+        let PASSWORD: string;
 
         return (
             <div>
@@ -51,7 +51,7 @@ class login extends Component {
                             {client => (
                                 <Mutation
                                     mutation={LOGIN_USER}
-                                    onCompleted={({ login }) => {
+                                    onCompleted={({ login } : { login: any }) => {
                                         console.log(login)
                                         localStorage.setItem('token', login.token);
                                         localStorage.setItem('tokenExpiration', login.tokenExpiration);
@@ -68,18 +68,32 @@ class login extends Component {
                                         })
                                     }}
                                 >
-                                    {(login, { loading, error }) => {
+                                    {(login: any, { loading, error }: any) => {
                                         if(loading) return <p>Loading...</p>
                                         if(error) return <p>Error is occured!</p>
                                         
                                         return (
                                             <form className="form__control" onSubmit={e => {
                                                 e.preventDefault();
-                                                login({ variables: {email: EMAIL.value, password: PASSWORD.value} })
+                                                login({ variables: {email: EMAIL, password: PASSWORD} })
                                             }}>
                                                 <h1>Login page</h1>
-                                                <input type="text" placeholder="type your ID" ref={emailValue =>{EMAIL = emailValue}}/>
-                                                <input type="password" placeholder="type your Password" ref={PSV => {PASSWORD = PSV}}/>
+                                                <input type="text" placeholder="type your ID" ref={emailValue =>{
+                                                    if(emailValue === null) {
+                                                        EMAIL = '';
+                                                    }
+                                                    else {
+                                                        EMAIL = emailValue.value
+                                                    }
+                                                }}/>
+                                                <input type="password" placeholder="type your Password" ref={PSV => {
+                                                    if(PSV === null) {
+                                                        PASSWORD = '';
+                                                    }
+                                                    else {
+                                                        PASSWORD = PSV.value
+                                                    }
+                                                }}/>
                                                 <button className="form__button">Login</button>
                                             </form>
                                         )

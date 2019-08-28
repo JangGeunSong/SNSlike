@@ -10,25 +10,30 @@ import Title from '../components/Title/Title'
 import Navbar from '../components/Navbar/Navbar'
 
 export class CreateArticle extends Component {
+    titleRef: React.RefObject<HTMLInputElement>;
+    descriptionRef: React.RefObject<HTMLTextAreaElement>;
+    onDrop: any
+    state = {
+        userId: null,
+        files: [],
+        fileNames: [],
+        isEmpty: true,
+    }
 
-    constructor(props) {
+    constructor(props: any) {
         super(props)
-        this.state = {
-            userId: null,
-            files: [],
-            fileNames: [],
-            isEmpty: true,
-        }
         this.titleRef = React.createRef()
         this.descriptionRef = React.createRef()
-        this.onDrop = (files) => {
+        this.onDrop = (files:any) => {
             if(this.state.isEmpty) this.setState({ isEmpty: !this.state.isEmpty });
-            this.setState(prevState => ({
-                files: [...prevState.files, files[0]]
-            }))
-            this.setState(prevState => ({
-                fileNames: [...prevState.fileNames, files[0].path]
-            }))
+            // this.setState(prevState => ({
+            //     files: [...prevState.files, files[0]]
+            // }))
+            // this.setState(prevState => ({
+            //     fileNames: [...prevState.fileNames, files[0].path]
+            // }))
+            this.setState({ files: [files] });
+            this.setState({ filNames: [files.path] });
             console.log(this.state.files);
         }
     }
@@ -57,7 +62,7 @@ export class CreateArticle extends Component {
                 }
             }
         `   
-        const fileList = this.state.files.map( (file) => (
+        const fileList = this.state.files.map( (file:any) => (
             <li key={file.path}>
                 {file.path} - {file.size} bytes
             </li>
@@ -73,15 +78,15 @@ export class CreateArticle extends Component {
                         <Mutation 
                             mutation={CREATE_ARTICLE}
                         >
-                            {(addArticle, data) => (
+                            {(addArticle:any) => (
                                 <div className="contentContainer">
                                     <form
                                         onSubmit={e => {
                                             e.preventDefault();
                                             addArticle({ 
                                                 variables: {
-                                                    title: this.titleRef.current.value,
-                                                    description: this.descriptionRef.current.value,
+                                                    title: this.titleRef.current,
+                                                    description: this.descriptionRef.current,
                                                     writer: this.state.userId,
                                                     images: this.state.files,
                                                     fileNames: this.state.fileNames,
@@ -95,7 +100,7 @@ export class CreateArticle extends Component {
                                         </div>
                                         <div className="form__control">
                                             <label htmlFor="description">Description</label>
-                                            <textarea id="description" placeholder="Type any contents" ref={this.descriptionRef} rows="25" cols="120"/>
+                                            <textarea id="description" placeholder="Type any contents" ref={this.descriptionRef} rows={25} cols={120}/>
                                         </div>
                                         <Dropzone onDrop={this.onDrop}>
                                             {({ getRootProps, getInputProps, isDragActive }) => (

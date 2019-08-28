@@ -10,17 +10,17 @@ import Title from '../components/Title/Title'
 import Navbar from '../components/Navbar/Navbar';
 
 class register extends Component {
+    onDrop: any;
+    state = {
+        isRegisterComplete: false,
+        name: null,
+        files: [],
+    }
 
-    constructor(props) {
+    constructor(props: any) {
         super(props);
-        this.state = {
-            isRegisterComplete: false,
-            name: null,
-            files: null,
-        }
-        this.onDrop = (files) => {
+        this.onDrop = (files: any) => {
             this.setState({files})
-            console.log(this.state.files[0])
         }
     }
 
@@ -38,13 +38,17 @@ class register extends Component {
             }
         `
 
-        let NAME, EMAIL, PASSWORD, PROFILE;
-
-        const fileList = this.state.files.map( (file) => (
-            <li key={file.path}>
-                {file.path} - {file.size} bytes
-            </li>
-        ))
+        let NAME: string, EMAIL: string, PASSWORD: string, PROFILE: string;
+        
+        let fileList: any = <p></p>;
+        
+        if(this.state.files !== null) {
+            fileList = this.state.files.map( (file: any) => (
+                <li key={file.path}>
+                    {file.path} - {file.size} bytes
+                </li>
+            ))
+        }
 
         return (
             <div>
@@ -52,17 +56,17 @@ class register extends Component {
                 <Navbar />
                 <div className="contentContainer">
                     <ApolloConsumer>
-                        {client => (
+                        {() => (
                             <Mutation
                                 mutation={CREATE_USER}
                                 onCompleted={() => {
                                     this.setState({ isRegisterComplete: true });
                                 }}
                             >
-                                {(createuser, { loading, error }) => {
+                                {(createuser: any, { loading, error }: any) => {
                                     if(loading) return <p>Loading...</p>
                                     if(error) {
-                                        const errorMessage = error.graphQLErrors.map(({ message }, number) => (
+                                        const errorMessage = error.graphQLErrors.map(({ message }: any, number: any) => (
                                             <span key={number}>{message}</span>
                                         ))
                                         return (
@@ -85,19 +89,39 @@ class register extends Component {
                                             e.preventDefault();
                                             console.log(this.state.files[0]);
                                             createuser({ variables: { 
-                                                name: NAME.value, 
-                                                email: EMAIL.value, 
-                                                password: PASSWORD.value, 
+                                                name: NAME, 
+                                                email: EMAIL, 
+                                                password: PASSWORD, 
                                                 profile_image: this.state.files[0], 
-                                                profile: PROFILE.value 
+                                                profile: PROFILE 
                                             } });
-                                            this.setState({ isRegisterComplete: true, name: NAME.value });
+                                            this.setState({ isRegisterComplete: true, name: NAME });
                                         }}>
                                             <h1>Register Page</h1>
-                                            <input type="text" placeholder="email" ref={emailValue => { EMAIL = emailValue }}/><br/>
-                                            <input type="password" placeholder="password" ref={passwordValue => { PASSWORD = passwordValue }}/><br/>
-                                            <input type="text" placeholder="name" ref={nameValue => { NAME = nameValue }}/><br/>
-                                            <input type="text" placeholder="profile" ref={profileValue => { PROFILE = profileValue }}/><br/>
+                                            <input type="text" placeholder="email" ref={emailValue => { 
+                                                EMAIL = '';
+                                                if(emailValue !== null) {
+                                                    EMAIL = emailValue.value;
+                                                }
+                                            }}/><br/>
+                                            <input type="password" placeholder="password" ref={passwordValue => { 
+                                                PASSWORD = '';
+                                                if(passwordValue !== null) {
+                                                    PASSWORD = passwordValue.value; 
+                                                }
+                                            }}/><br/>
+                                            <input type="text" placeholder="name" ref={nameValue => { 
+                                                NAME = '';
+                                                if(nameValue !== null) {
+                                                    NAME = nameValue.value;
+                                                } 
+                                            }}/><br/>
+                                            <input type="text" placeholder="profile" ref={profileValue => { 
+                                                PROFILE = '';
+                                                if(profileValue !== null) {
+                                                    PROFILE = profileValue.value;
+                                                }
+                                            }}/><br/>
                                             <Dropzone onDrop={this.onDrop}>
                                                 {({ getRootProps, getInputProps, isDragActive }) => (
                                                     <div {...getRootProps({ className: 'dropzone' })}>

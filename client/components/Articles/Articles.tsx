@@ -42,7 +42,7 @@ function Articles() {
 
     return (
         <Query query={GET_ARTICLES}>
-            {({ loading, error, data }) => {
+            {({ loading, error, data }: any) => {
                 if (loading) return 'Loading...';
                 if (error) return `Error! ${error.message}`;
 
@@ -50,7 +50,7 @@ function Articles() {
 
                 return (
                     <div className="Articles">
-                        {resultArticle.map(article => {
+                        {resultArticle.map((article: any) => {
                             return (
                                 <Mutation 
                                     key={article._id} 
@@ -65,7 +65,7 @@ function Articles() {
                                         ]
                                     }}
                                 >
-                                    {deleteArticle => (
+                                    {(deleteArticle: any) => (
                                         <div className="Article">
                                             <div className="Article__contents">
                                                 <h1>{article.title}</h1>

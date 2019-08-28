@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter } from 'next/router'
+import { withRouter, SingletonRouter } from 'next/router'
 import Link from 'next/link'
 
 import './pageStyle.css';
@@ -8,7 +8,11 @@ import Title from '../components/Title/Title'
 import Navbar from '../components/Navbar/Navbar';
 import Articles from '../components/Articles/Articles';
 
-class index extends Component {
+interface Props {
+    router: SingletonRouter
+}
+
+class index extends Component<Props> {
 
     state = {
         isLoggedIn: false
