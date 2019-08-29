@@ -18,4 +18,4 @@ file upload is complete. Now user image and file will receive from the server. T
 
 What's next? --> add the user & article info update and user delete process. And token expiration time setting
 
-Change all files are typescript for upgrade my webapp.
+Change all files are typescript for upgrade my webapp. This would be good for see the code more effectively.
