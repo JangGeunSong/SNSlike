@@ -11,6 +11,7 @@ import Navbar from '../components/Navbar/Navbar'
 export class ArticleRevice extends Component {
     state = {
         userId: null,
+        articleId: null,
     }
 
     componentDidMount() {
