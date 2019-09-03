@@ -21,6 +21,7 @@ p {
     font-size: 3rem;
     background-color: #053691;
     display: flex;
+    position: absolute;
     justify-content: space-between;
     width: 150rem;
     max-width: 100%;
