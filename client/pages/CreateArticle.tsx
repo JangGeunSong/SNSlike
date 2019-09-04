@@ -9,33 +9,45 @@ import './pageStyle.css'
 import Title from '../components/Title/Title'
 import Navbar from '../components/Navbar/Navbar'
 
-export class CreateArticle extends Component {
-    titleRef: React.RefObject<HTMLInputElement>;
-    descriptionRef: React.RefObject<HTMLTextAreaElement>;
+interface componentProps {
+    files: Array<any>,
+    fileNames: Array<any>,
+    isEmpty: boolean,
+    description: null,
+}
+
+export class CreateArticle extends Component<componentProps> {
     onDrop: any
     state = {
         userId: null,
         files: [],
         fileNames: [],
         isEmpty: true,
+        title: null,
+        description: null,
     }
 
     constructor(props: any) {
         super(props)
-        this.titleRef = React.createRef()
-        this.descriptionRef = React.createRef()
-        this.onDrop = (files:any) => {
+        this.onDrop = (files: any) => {
             if(this.state.isEmpty) this.setState({ isEmpty: !this.state.isEmpty });
-            // this.setState(prevState => ({
-            //     files: [...prevState.files, files[0]]
+            // this.setState((prevState) => ({
+            //     files: prevState.files.push(files[0])
             // }))
-            // this.setState(prevState => ({
+            // this.setState((prevState):any => ({
             //     fileNames: [...prevState.fileNames, files[0].path]
             // }))
-            this.setState({ files: [files] });
-            this.setState({ filNames: [files.path] });
+            let filesArray: Array<any> = this.state.files;
+            let filesNamesArray: Array<any> = this.state.fileNames;
+            console.log(files[0]);
+            filesArray.push(files[0]);
+            filesNamesArray.push(files[0].path);
+            this.setState({ files: filesArray });
+            this.setState({ filNames: filesNamesArray });
             console.log(this.state.files);
         }
+        this.onTitleHandle = this.onTitleHandle.bind(this);
+        this.onDescriptionHandle = this.onDescriptionHandle.bind(this);
     }
 
     componentDidMount() {
@@ -46,6 +58,14 @@ export class CreateArticle extends Component {
         else {
             this.setState({ userId: localStorage.getItem('userId') })
         }
+    }
+
+    onTitleHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({ title: e.currentTarget.value });
+    }
+
+    onDescriptionHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        this.setState({ description: e.currentTarget.value });
     }
 
     render() {
@@ -85,22 +105,23 @@ export class CreateArticle extends Component {
                                             e.preventDefault();
                                             addArticle({ 
                                                 variables: {
-                                                    title: this.titleRef.current,
-                                                    description: this.descriptionRef.current,
+                                                    title: this.state.title,
+                                                    description: this.state.description,
                                                     writer: this.state.userId,
                                                     images: this.state.files,
                                                     fileNames: this.state.fileNames,
                                                 } 
                                             });
+                                            alert("Create article in done please reload page!");
                                         }}
                                     >
                                         <div className="form__control">
                                             <label htmlFor="title">Title </label>
-                                            <input type="text" id="title" placeholder="Type the title" ref={this.titleRef}/>
+                                            <input type="text" id="title" placeholder="Type the title" onChange={this.onTitleHandle} />
                                         </div>
                                         <div className="form__control">
                                             <label htmlFor="description">Description</label>
-                                            <textarea id="description" placeholder="Type any contents" ref={this.descriptionRef} rows={25} cols={120}/>
+                                            <textarea id="description" placeholder="Type any contents" onChange={this.onDescriptionHandle} rows={25} cols={120}/>
                                         </div>
                                         <Dropzone onDrop={this.onDrop}>
                                             {({ getRootProps, getInputProps, isDragActive }) => (
