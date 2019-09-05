@@ -62,7 +62,7 @@ class login extends Component {
                     :
                     (
                         <ApolloConsumer>
-                            {client => (
+                            {() => (
                                 <Mutation
                                     mutation={LOGIN_USER}
                                     onCompleted={({ login } : { login: any }) => {
@@ -72,14 +72,6 @@ class login extends Component {
                                         localStorage.setItem('userName', login.userName);
                                         localStorage.setItem('userId', login.userId);
                                         this.setState({ isLoginComplete: true });
-                                        client.cache.writeData({
-                                            data: {
-                                                token: login.token,
-                                                tokenExpiration: login.tokenExpiration,
-                                                useName: login.userName,
-                                                userId: login.userId,
-                                            },
-                                        })
                                     }}
                                 >
                                     {(login: any, { loading, error }: any) => {
