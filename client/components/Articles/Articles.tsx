@@ -51,7 +51,7 @@ function Articles() {
                     let aTime = new Date(a.date);
                     let bTime = new Date(b.date);
                     return +bTime - +aTime;
-                })
+                }) // Sort New to Old article.
 
                 return (
                     <div className="Articles">
