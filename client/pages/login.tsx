@@ -6,16 +6,32 @@ import gql from 'graphql-tag'
 import './pageStyle.css'
 
 import Title from '../components/Title/Title'
-import Navbar from '../components/Navbar/Navbar';
+import Navbar from '../components/Navbar/Navbar'
 
 class login extends Component {
 
     state = {
-        isLoginComplete: false
+        isLoginComplete: false,
+        email: null,
+        password: null,
+    }
+
+    constructor(props: any) {
+        super(props)
+        this.onEmailHandle = this.onEmailHandle.bind(this);
+        this.onPasswordHandle = this.onPasswordHandle.bind(this);
     }
 
     componentDidMount() {
         document.title = "login"
+    }
+
+    onEmailHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({ email: e.currentTarget.value })
+    }
+
+    onPasswordHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({ password: e.currentTarget.value })
     }
 
     render() {
@@ -30,8 +46,6 @@ class login extends Component {
             }
         `
 
-        let EMAIL: string;
-        let PASSWORD: string;
 
         return (
             <div>
@@ -48,7 +62,7 @@ class login extends Component {
                     :
                     (
                         <ApolloConsumer>
-                            {client => (
+                            {() => (
                                 <Mutation
                                     mutation={LOGIN_USER}
                                     onCompleted={({ login } : { login: any }) => {
@@ -58,14 +72,6 @@ class login extends Component {
                                         localStorage.setItem('userName', login.userName);
                                         localStorage.setItem('userId', login.userId);
                                         this.setState({ isLoginComplete: true });
-                                        client.cache.writeData({
-                                            data: {
-                                                token: login.token,
-                                                tokenExpiration: login.tokenExpiration,
-                                                useName: login.userName,
-                                                userId: login.userId,
-                                            },
-                                        })
                                     }}
                                 >
                                     {(login: any, { loading, error }: any) => {
@@ -75,25 +81,11 @@ class login extends Component {
                                         return (
                                             <form className="form__control" onSubmit={e => {
                                                 e.preventDefault();
-                                                login({ variables: {email: EMAIL, password: PASSWORD} })
+                                                login({ variables: {email: this.state.email, password: this.state.password} })
                                             }}>
                                                 <h1>Login page</h1>
-                                                <input type="text" placeholder="type your ID" ref={emailValue =>{
-                                                    if(emailValue === null) {
-                                                        EMAIL = '';
-                                                    }
-                                                    else {
-                                                        EMAIL = emailValue.value
-                                                    }
-                                                }}/>
-                                                <input type="password" placeholder="type your Password" ref={PSV => {
-                                                    if(PSV === null) {
-                                                        PASSWORD = '';
-                                                    }
-                                                    else {
-                                                        PASSWORD = PSV.value
-                                                    }
-                                                }}/>
+                                                <input type="text" placeholder="type your ID" onChange={this.onEmailHandle} />
+                                                <input type="password" placeholder="type your Password" onChange={this.onPasswordHandle} />
                                                 <button className="form__button">Login</button>
                                             </form>
                                         )

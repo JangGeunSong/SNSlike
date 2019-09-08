@@ -47,6 +47,11 @@ function Articles() {
                 if (error) return `Error! ${error.message}`;
 
                 let resultArticle = data.articles;
+                resultArticle.sort((a: any, b: any) => {
+                    let aTime = new Date(a.date);
+                    let bTime = new Date(b.date);
+                    return +bTime - +aTime;
+                }) // Sort New to Old article.
 
                 return (
                     <div className="Articles">
