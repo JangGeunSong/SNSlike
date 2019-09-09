@@ -14,7 +14,7 @@ function create (initialState: any) {
       uri: 'http://localhost:5500/graphql', 
       credentials: 'same-origin', 
       fetch
-    }),
+    }), // To send the file promise, I change the link part on client part
     cache: new InMemoryCache().restore(initialState || {}),
   })
 }
