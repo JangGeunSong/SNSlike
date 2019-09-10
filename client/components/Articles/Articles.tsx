@@ -2,6 +2,7 @@ import React from 'react'
 import { Query, Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import Moment from 'react-moment'
+import Link from 'next/link'
 
 import ArticleImage from './ArticleImage';
 
@@ -88,6 +89,13 @@ function Articles() {
                                             }}>
                                                 Delete
                                             </button>
+                                            <Link href="/ArticleRevice">
+                                                <button className="Article__button" onClick={() => {
+                                                    localStorage.setItem("articleId", article._id);
+                                                }}>
+                                                    <a>Update</a>
+                                                </button>
+                                            </Link>
                                         </div>
                                     )}                                    
                                 </Mutation>

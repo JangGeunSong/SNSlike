@@ -14,7 +14,8 @@ import Navbar from '../components/Navbar/Navbar'
 export class ArticleRevice extends Component {
     state = {
         userId: null,
-        articleId: null,
+        title: null,
+        description: null,
     }
 
     componentDidMount() {
@@ -27,17 +28,25 @@ export class ArticleRevice extends Component {
         }
     }
 
+    onTitleHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({ title: e.currentTarget.value });
+    }
+
+    onDescriptionHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        this.setState({ description: e.currentTarget.value });
+    }
+
     render() {
         const ARTICLEUPDATE = gql`
-            mutation updateArticle($articleId: ID!, $title: string!, $description: string!){
-                updateArticle(articleId: $articleId, articleInput: {title: $title, description: $description})
-            } {
-                _id
-                title
-                date
-                description
-                writer {
+            mutation updateArticle($articleId: ID!, $writer: String!, $title: String!, $description: String!){
+                updateArticle(articleId: $articleId, articleInput: {title: $title, description: $description, writer: $writer}) {
                     _id
+                    title
+                    date
+                    description
+                    writer {
+                        _id
+                    }
                 }
             }
         `
@@ -59,12 +68,25 @@ export class ArticleRevice extends Component {
                                             e.preventDefault();
                                             articleUpdate({
                                                 variables: {
+                                                    articleId: localStorage.getItem("articleId"),
+                                                    title: this.state.title,
+                                                    description: this.state.description,
+                                                    writer: localStorage.getItem('userId'),
                                                     // articleId, title, description is need 
                                                 }
-                                            })
+                                            });
+                                            alert("Update article in done please reload page!");
                                         }}
                                     >
-
+                                        <div className="form__control">
+                                            <label htmlFor="title">Title </label>
+                                            <input type="text" id="title" placeholder="Type the title" onChange={this.onTitleHandle} />
+                                        </div>
+                                        <div className="form__control">
+                                            <label htmlFor="description">Description</label>
+                                            <textarea id="description" placeholder="Type any contents" onChange={this.onDescriptionHandle} rows={25} cols={120}/>
+                                        </div>
+                                        <button className="form__button" type="submit">Submit</button>
                                     </form>
                                 </div>
                             )}

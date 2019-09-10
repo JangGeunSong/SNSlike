@@ -110,20 +110,29 @@ module.exports = {
         // update article
         updateArticle: async (request, args) => {
             const articleId = args.articleId;
-            const updateContent = {
-                title: args.articleInput.title,
-                description: args.articleInput.description,                    
-                date: new Date(args.articleInput.date).toISOString()
+            const userId = args.articleInput.writer;
+            const articleOwner = await Article.findById(articleId).populate('article');
+            if(userId === articleOwner._doc.writer.toString()) {
+                const updateContent = {
+                    title: args.articleInput.title,
+                    description: args.articleInput.description,                    
+                    date: new Date().toISOString()
+                }
+                try {
+                    Article.findByIdAndUpdate(articleId, updateContent, { new: true }, (error) => {
+                        if(error) {
+                            throw error;
+                        }
+                    });
+                    const result = await Article.findById(articleId).populate('article');
+                    return result;
+                } 
+                catch (error) {
+                    throw error    
+                }
             }
-            try {
-                Article.findByIdAndUpdate(articleId, updateContent, { new: true }, (error) => {
-                    if(error) {
-                        throw error;
-                    }
-                });
-            } 
-            catch (error) {
-                throw error    
+            else {
+                return new Error("Access User is not the Article Owner!");
             }
         }
     },
