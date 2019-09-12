@@ -20,4 +20,6 @@ What's next? --> add the user & article info update and user delete process. And
 
 add the user & article info update and user delete process. --> done!!
 
+now ready to deploy the web app.
+
 Change all files are typescript for upgrade my webapp. This would be good for see the code more effectively. -> Bug is deleted!
