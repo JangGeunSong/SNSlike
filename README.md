@@ -1,5 +1,9 @@
-This project is SNS like webapp using graphQL(with apollo)m react.jsm node.js, and MongoDB
+# SNS like clone web application
+================================
 
+This project is SNS like webapp using **graphQL(with apollo)**, **react.js**, **node.js** and **MongoDB**
+
+## How to run
 >npm i
 >npm start
 
