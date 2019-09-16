@@ -30,7 +30,7 @@ export class Title extends Component {
                 (
                     <div className="button__bundle">
                         <button className="title__login">
-                            <p>Hello {localStorage.getItem('userName')}</p>
+                            <Link href="/userPage"><a>Hello {localStorage.getItem('userName')}</a></Link>
                         </button>
                         <button className="title__register" onClick={this.logout}>
                             <a>Logout</a>
