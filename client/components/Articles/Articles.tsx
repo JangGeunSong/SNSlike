@@ -93,7 +93,7 @@ function Articles() {
                                                 <button className="Article__button" onClick={() => {
                                                     localStorage.setItem("articleId", article._id);
                                                 }}>
-                                                    <a>Update</a>
+                                                    Update
                                                 </button>
                                             </Link>
                                         </div>

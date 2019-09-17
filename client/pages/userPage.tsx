@@ -102,6 +102,7 @@ export class userPage extends Component {
                                                             PROFILE = profileValue.value;
                                                         } 
                                                     }}/><br/>
+                                                    <button className="form__button" type="submit">Submit</button>
                                                 </form>
                                             </div>
                                         )
