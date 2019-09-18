@@ -32,11 +32,20 @@ server.applyMiddleware({
         credentials: true,
         origin: true,
     },
-    path: "/",
+    // path: "/",
 })
 
 const port = process.env.PORT || 5500
 
+app.use(express.static('client/out'));
+
+app.get('*', (req, res) => {
+    let fileName = req.path.slice(1);
+    if(fileName === 'home') {
+        fileName = 'index.html'
+    }
+    res.sendFile(path.resolve(__dirname, 'client', 'out', fileName));
+})
 
 mongoose.connect(`mongodb+srv://${process.env.MONGO_DB_USER_NAME}:${process.env.MONGO_DB_PASSWORD}@post-rdm59.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`, { useNewUrlParser: true })
     .then(

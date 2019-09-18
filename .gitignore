@@ -6,3 +6,4 @@ nodemon.json
 # Client side important part is blocked
 /client/node_modules
 /client/.next
+/client/out

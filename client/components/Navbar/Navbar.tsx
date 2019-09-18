@@ -15,9 +15,9 @@ function Navbar() {
                 <div className="Navbar__active">
                     <button className="Navbar__close-button" onClick={() => setNavbarShow(false)}>X</button>
                     <Link href="/" ><a className="Navbar__route">Home</a></Link><br/>
-                    <Link href="/about" ><a className="Navbar__route">About</a></Link><br/>
-                    <Link href="createarticle" ><a className="Navbar__route">new article</a></Link><br/>
-                    <Link href="" ><a className="Navbar__route">Q&A</a></Link><br/>
+                    <Link href="/About" ><a className="Navbar__route">About</a></Link><br/>
+                    <Link href="/CreateArticle" ><a className="Navbar__route">new article</a></Link><br/>
+                    <Link href="/" ><a className="Navbar__route">Q&A</a></Link><br/>
                 </div>
             ) :
             (
