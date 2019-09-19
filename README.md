@@ -1,7 +1,9 @@
 # SNS like clone web application
-================================
 
 This project is SNS like webapp using **graphQL(with apollo)**, **react.js**, **node.js** and **MongoDB**
+
+## Notice
+This App will use AWS service.
 
 ## How to run
 >npm i
