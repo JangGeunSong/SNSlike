@@ -5,6 +5,9 @@ This project is SNS like webapp using **graphQL(with apollo)**, **react.js**, **
 ## Notice
 This App will use AWS service.
 
+### Using stack
+**EC2**, **S3** at first!.
+
 ## How to run
 >npm i
 >npm start
