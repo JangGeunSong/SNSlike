@@ -1,3 +1,5 @@
+# 한글설명은 서버파트에 있는 README.MD 파일을 참고하여 주세요.
+
 This client side is made by using Next.js that server rendering framework React.js
 
 >npm i
