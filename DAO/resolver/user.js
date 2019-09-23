@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const { createWriteStream } = require('fs');
 const path = require('path');
 
+const { SECRET_KEY } = require('../../staticConst')
 const User = require('../../model/User');
 const Article = require('../../model/Article');
 
@@ -26,7 +27,7 @@ module.exports = {
                 throw error;
             }
         },
-        user: async (request, args) => {
+        user: async (request, args, context) => {
             const userId = args.userId;
             try {
                 const targetUser = await User.findOne(userId);
@@ -35,7 +36,7 @@ module.exports = {
             catch (error) {
                 throw error;
             }
-        }
+        },
     },
     Mutation: {
         // create user method
@@ -78,11 +79,18 @@ module.exports = {
                 if(!isPasswordEqual) return new Error('Password is not matched. please check your password!');
                 const token = jwt.sign(
                     {userId: user.id, email: user.email},
-                    'somesupersecurity',
+                    SECRET_KEY,
                     {
                         expiresIn: '1h'
                     }
                 );
+
+                // response.cookie("Authentication", token, {
+                //     httpOnly: true,
+                //     // secure: process.env.NODE_ENV === "production",
+                //     maxAge: 1000 * 60 * 60
+                // });
+
                 return { userId: user.id, userName: user.name, token: token, tokenExpiration: 1 };
             } 
             catch (error) {
