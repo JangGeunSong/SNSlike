@@ -70,7 +70,7 @@ module.exports = {
         },
 
         // login method
-        login: async (request, args) => {
+        login: async (request, args, response) => {
             const user = await User.findOne({ email: args.loginInput.email });
             try {
                 const isExistUser = await User.findOne({ email: args.loginInput.email });
@@ -85,16 +85,10 @@ module.exports = {
                     }
                 );
 
-                // response.cookie("Authentication", token, {
-                //     httpOnly: true,
-                //     // secure: process.env.NODE_ENV === "production",
-                //     maxAge: 1000 * 60 * 60
-                // });
-
                 return { userId: user.id, userName: user.name, token: token, tokenExpiration: 1 };
             } 
             catch (error) {
-                throw err;
+                throw error;
             }
         },
         // delete User
