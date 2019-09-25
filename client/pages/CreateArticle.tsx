@@ -19,7 +19,7 @@ interface componentProps {
 export class CreateArticle extends Component<componentProps> {
     onDrop: any
     state = {
-        userId: null,
+        token: null,
         files: [],
         fileNames: [],
         isEmpty: true,
@@ -52,11 +52,11 @@ export class CreateArticle extends Component<componentProps> {
 
     componentDidMount() {
         document.title = "CreateArticle"
-        if(localStorage.getItem('userId') === null) {
-            this.setState({ userId: null });
+        if(localStorage.getItem('token') === null) {
+            this.setState({ token: null });
         }
         else {
-            this.setState({ userId: localStorage.getItem('userId') })
+            this.setState({ token: localStorage.getItem('token') })
         }
     }
 
@@ -93,7 +93,7 @@ export class CreateArticle extends Component<componentProps> {
                 <Title />
                 <Navbar />
                 <React.Fragment>
-                    {this.state.userId ?
+                    {this.state.token ?
                     (
                         <Mutation 
                             mutation={CREATE_ARTICLE}
@@ -107,7 +107,7 @@ export class CreateArticle extends Component<componentProps> {
                                                 variables: {
                                                     title: this.state.title,
                                                     description: this.state.description,
-                                                    writer: this.state.userId,
+                                                    writer: this.state.token,
                                                     images: this.state.files,
                                                     fileNames: this.state.fileNames,
                                                 } 

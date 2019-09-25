@@ -9,7 +9,7 @@ async function findtargetUser (userId) {
 
 module.exports = {
     Query: {
-        articles: async () => {
+        articles: async (object, args, context) => {
             try {
                 const articles = await Article.find();
                 return articles.map(article => {
@@ -30,7 +30,7 @@ module.exports = {
     },
     Mutation: {
         // create Article method
-        createArticle: async (request, args) => {
+        createArticle: async (object, args, context) => {
             const articleImages = await args.articleInput.images;
             const filenames = await args.articleInput.fileNames;
             console.log(filenames);
@@ -38,7 +38,7 @@ module.exports = {
                 title: args.articleInput.title,
                 description: args.articleInput.description,
                 date: new Date().toISOString(),
-                writer: args.articleInput.writer,
+                writer: context.clientInfo.userId,
                 images: filenames,
             });
             // Don't need the _id field because it will create automatically by mongodb
@@ -60,7 +60,7 @@ module.exports = {
                         })
                         .catch(err => console.log(err))
                 });
-                const writer = await User.findById(args.articleInput.writer);
+                const writer = await User.findById(context.clientInfo.userId);
                 if(!writer) {
                     throw new Error('User not found!')
                 }
@@ -73,7 +73,7 @@ module.exports = {
             }
         },
         // delete article
-        deleteArticle: async (request, args) => {
+        deleteArticle: async (object, args, context) => {
             const articleId = args.articleId;
             let targetArticle;
             try {
@@ -108,9 +108,9 @@ module.exports = {
             }
         },
         // update article
-        updateArticle: async (request, args) => {
+        updateArticle: async (object, args, context) => {
             const articleId = args.articleId;
-            const userId = args.articleInput.writer;
+            const userId = context.clientInfo.userId;
             const articleOwner = await Article.findById(articleId).populate('article');
             if(userId === articleOwner._doc.writer.toString()) {
                 const updateContent = {

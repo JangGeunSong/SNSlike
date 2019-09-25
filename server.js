@@ -18,13 +18,24 @@ const server = new ApolloServer({
     typeDefs, 
     resolvers, 
     context: ({ req, res }) => {
-        const token = req.headers.authorization || '';
-        console.log(token)
-        if(token.split(' ')[1] !== 'null') {
-            const { email } = jwt.verify(token.split(' ')[1], SECRET_KEY);
-            if (!email) throw new AuthenticationError('you must be logged in');
-            res.cookie('authorization', '1', { expires: new Date(Date.now() + 900000), httpOnly: true }) 
-            return { email }
+        const authorization = req.headers.authorization || '';
+        const token = authorization.split(' ')[1];
+        let parsingContext = {
+            clientInfo: null
+        }
+        if(token === 'null') {
+            return parsingContext;
+        }
+        else {
+            try {
+                const clientInfo = jwt.verify(token, SECRET_KEY);
+                parsingContext = {
+                    clientInfo
+                }
+                return parsingContext;
+            } catch (error) {
+                throw error
+            }
         }
     } 
 });

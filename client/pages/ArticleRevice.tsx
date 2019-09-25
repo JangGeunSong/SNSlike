@@ -13,18 +13,18 @@ import Navbar from '../components/Navbar/Navbar'
 
 export class ArticleRevice extends Component {
     state = {
-        userId: null,
+        token: null,
         title: null,
         description: null,
     }
 
     componentDidMount() {
         document.title = 'ArticleRevice';
-        if(localStorage.getItem('userId') === null) {
-            this.setState({ userId: null });
+        if(localStorage.getItem('token') === null) {
+            this.setState({ token: null });
         }
         else {
-            this.setState({ userId: localStorage.getItem('userId') });
+            this.setState({ token: localStorage.getItem('token') });
         }
     }
 
@@ -56,7 +56,7 @@ export class ArticleRevice extends Component {
                 <Title />
                 <Navbar />
                 <React.Fragment>
-                    {this.state.userId ? 
+                    {this.state.token ? 
                     (
                         <Mutation 
                             mutation={ARTICLEUPDATE}
@@ -71,7 +71,7 @@ export class ArticleRevice extends Component {
                                                     articleId: localStorage.getItem("articleId"),
                                                     title: this.state.title,
                                                     description: this.state.description,
-                                                    writer: localStorage.getItem('userId'),
+                                                    writer: localStorage.getItem('token'),
                                                     // articleId, title, description is need 
                                                 }
                                             });

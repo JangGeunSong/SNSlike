@@ -27,7 +27,7 @@ module.exports = {
                 throw error;
             }
         },
-        user: async (request, args, context) => {
+        user: async (object, args, context) => {
             const userId = args.userId;
             try {
                 const targetUser = await User.findOne(userId);
@@ -40,7 +40,7 @@ module.exports = {
     },
     Mutation: {
         // create user method
-        createUser: async (request, args) => {
+        createUser: async (object, args) => {
             try {
                 // Only File name is sended. That is problem for fail to fetch error. I need to solve this problem!.
                 console.log(args.userInput.profile_image)
@@ -70,7 +70,7 @@ module.exports = {
         },
 
         // login method
-        login: async (request, args, response) => {
+        login: async (object, args, context, info) => {
             const user = await User.findOne({ email: args.loginInput.email });
             try {
                 const isExistUser = await User.findOne({ email: args.loginInput.email });
@@ -92,7 +92,7 @@ module.exports = {
             }
         },
         // delete User
-        deleteUser: async (request, args) => {
+        deleteUser: async (object, args, context) => {
             const userId = args.userId;
             let targetUser;
             try {
@@ -110,7 +110,7 @@ module.exports = {
                 throw error;
             }
         },
-        updateUser: async (request, args) => {
+        updateUser: async (object, args, context) => {
             const userId = args.userId;
             let updateContent;
             let newPassword = await bcrypt.hash(args.userInput.password, 12);

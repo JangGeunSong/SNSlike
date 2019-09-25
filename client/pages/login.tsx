@@ -38,7 +38,6 @@ class login extends Component {
         const LOGIN_USER = gql`
             mutation login($email: String!, $password: String!){
                 login(loginInput: {email: $email, password: $password}){
-                    userId
                     userName
                     token
                     tokenExpiration
@@ -70,7 +69,6 @@ class login extends Component {
                                         localStorage.setItem('token', login.token);
                                         localStorage.setItem('tokenExpiration', login.tokenExpiration);
                                         localStorage.setItem('userName', login.userName);
-                                        localStorage.setItem('userId', login.userId);
                                         this.setState({ isLoginComplete: true });
                                     }}
                                 >
