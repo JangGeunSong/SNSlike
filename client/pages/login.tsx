@@ -40,7 +40,6 @@ class login extends Component {
                 login(loginInput: {email: $email, password: $password}){
                     userName
                     token
-                    tokenExpiration
                 }
             }
         `
@@ -65,9 +64,7 @@ class login extends Component {
                                 <Mutation
                                     mutation={LOGIN_USER}
                                     onCompleted={({ login } : { login: any }) => {
-                                        console.log(login)
                                         localStorage.setItem('token', login.token);
-                                        localStorage.setItem('tokenExpiration', login.tokenExpiration);
                                         localStorage.setItem('userName', login.userName);
                                         this.setState({ isLoginComplete: true });
                                     }}

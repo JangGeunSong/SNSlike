@@ -4,7 +4,16 @@ const { createWriteStream, unlinkSync } = require('fs');
 const path = require('path');
 
 async function findtargetUser (userId) {
-    return await User.findById(userId);
+    const user = await User.findById(userId);
+    const selectedUserData = {
+        name: user.name,
+        email: user.email,
+        profile_image: user.profile_image,
+        profile: user.profile,
+        created_articles: user.created_articles,
+    };
+    // Don't want to send the writer ID to the client side.
+    return selectedUserData;
 }
 
 module.exports = {
@@ -92,6 +101,8 @@ module.exports = {
                     date: new Date(result._doc.date).toISOString(),
                     writer: writer,
                 }
+                await writer.created_articles.filter(el => el !== articleId);
+                await writer.save();
                 if(images !== null) {
                     images.map((image) => {
                         try {

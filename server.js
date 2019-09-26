@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
-const { ApolloServer, AuthenticationError } = require('apollo-server-express');
+const { ApolloServer } = require('apollo-server-express');
 const { existsSync, mkdirSync } = require('fs') // Checking folder is exist and make folder if folder does not exist.
 const jwt = require('jsonwebtoken')
 const { SECRET_KEY } = require('./staticConst');
@@ -24,7 +24,7 @@ const server = new ApolloServer({
             clientInfo: null
         }
         if(token === 'null') {
-            return parsingContext;
+            return { res, parsingContext };
         }
         else {
             try {
@@ -32,7 +32,7 @@ const server = new ApolloServer({
                 parsingContext = {
                     clientInfo
                 }
-                return parsingContext;
+                return { res, parsingContext };
             } catch (error) {
                 throw error
             }

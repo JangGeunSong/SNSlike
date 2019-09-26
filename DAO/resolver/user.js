@@ -84,7 +84,10 @@ module.exports = {
                         expiresIn: '1h'
                     }
                 );
-
+                context.res.cookie('token', token, {
+                    httpOnly: true,
+                    maxAge: 1000 * 60 * 60
+                });
                 return { userId: user.id, userName: user.name, token: token, tokenExpiration: 1 };
             } 
             catch (error) {

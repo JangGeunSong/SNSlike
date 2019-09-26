@@ -7,7 +7,7 @@ let apolloClient: ApolloClient<NormalizedCacheObject> | null = null;
 
 const httpLink = createUploadLink({ 
   uri: 'http://localhost:5500/graphql',
-  credentials: 'same-origin', 
+  credentials: 'include', 
   fetch, 
 });
 
