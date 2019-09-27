@@ -31,7 +31,7 @@ MongoDB와 관련된 파일들은 nodemon.json 파일을 생성하여 정보가 
         >서버와 클라이언트 사이의 데이터 송 수신 과정에서 필요한 정보만 선별하여 가져올 수 있는 GraphQL을 도입하였습니다.
 
         - Apollo Server
-        >GraphQL을 활용하는데 서버파트인 Express와 클라이언트 파트인 ReactJS에 간편한 통신을 위해 도입하였습니다.
+        >GraphQL을 활용하는데 서버파트인 Express와 클라이언트 파트인 ReactJS에 간편한 통신을 위해 도입하였습니다. 사용자의 정보를 쿠키를 통해 전달합니다.
 
     2. 프론트엔드 파트 사용 기술
         - ReactJS
@@ -41,7 +41,7 @@ MongoDB와 관련된 파일들은 nodemon.json 파일을 생성하여 정보가 
         >프론트엔드 부분의 코드량이 늘어남에 따라 컴파일 전에 오류를 미리 체크할 수 있는 Typescript를 도입하여 프로젝트를 관리하였습니다.
 
         - Apollo Client
-        >GraphQL을 활용하는데 서버파트인 Express와 클라이언트 파트인 ReactJS에 간편한 통신을 위해 도입하였습니다.
+        >GraphQL을 활용하는데 서버파트인 Express와 클라이언트 파트인 ReactJS에 간편한 통신을 위해 도입하였습니다. 사용자의 정보를 쿠키를 통해 전달합니다.
 
         -Next.JS
         >ReactJS의 멀티 페이지 렌더링을 활용하기 위해 이를 중계해주는 Next.JS를 활용하였습니다.
