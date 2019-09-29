@@ -87,7 +87,9 @@ module.exports = {
                 context.res.cookie('token', token, {
                     httpOnly: true,
                     maxAge: 1000 * 60 * 60
-                });
+                }); 
+                // Set cookie for the authentication.
+                // httpOnly option is more safe to illegally access from the client side JS or TS code directly.
                 return { userId: user.id, userName: user.name, token: token, tokenExpiration: 1 };
             } 
             catch (error) {
