@@ -83,19 +83,28 @@ function Articles() {
                                                 <img className="User__profile" src={`http://localhost:5500/static/images/${article.writer.profile_image}`} alt={`${article.writer.name}'s image`}/>
                                                 <p className="User__name">{article.writer.name}</p>
                                             </div>
-                                            <button className="Article__button" onClick={e => {
-                                                e.preventDefault();
-                                                deleteArticle({ variables: { articleId: article._id } })
-                                            }}>
-                                                Delete
-                                            </button>
-                                            <Link href="/ArticleRevice">
-                                                <button className="Article__button" onClick={() => {
-                                                    localStorage.setItem("articleId", article._id);
+                                            {article.writer.name === localStorage.getItem('userName') ? 
+                                            (
+                                                <button className="Article__button" onClick={e => {
+                                                    e.preventDefault();
+                                                    deleteArticle({ variables: { articleId: article._id } })
                                                 }}>
-                                                    Update
+                                                    Delete
                                                 </button>
-                                            </Link>
+                                            ) :
+                                            (<p></p>)}
+                                            {article.writer.name === localStorage.getItem('userName') ?
+                                            (
+                                                <Link href="/ArticleRevice">
+                                                    <button className="Article__button" onClick={() => {
+                                                        localStorage.setItem("articleId", article._id);
+                                                    }}>
+                                                        Update
+                                                    </button>
+                                                </Link>
+                                            ) :
+                                            (<p></p>)}
+                                            
                                         </div>
                                     )}                                    
                                 </Mutation>

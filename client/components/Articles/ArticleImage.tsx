@@ -20,6 +20,16 @@ export class ArticleImage extends Component<ImageProps> {
         display: 'none'
     }
 
+    onClickNextImage = (e: any) => {
+        e.preventDefault();
+        let nextNum = this.state.tarNum + 1;
+        this.setState({ tarNum: nextNum });
+        if(nextNum >= this.state.images.length) {
+            this.setState({ tarNum: 0 });
+        }
+        this.forceUpdate()
+    }
+
     render() {
         return (
             <div>
@@ -37,15 +47,11 @@ export class ArticleImage extends Component<ImageProps> {
                         }
                     })
                 }
-                <button className="Article__button" onClick={e => {
-                    e.preventDefault();
-                    let nextNum = this.state.tarNum + 1;
-                    this.setState({ tarNum: nextNum });
-                    if(nextNum >= this.state.images.length) {
-                        this.setState({ tarNum: 0 });
-                    }
-                    this.forceUpdate()
-                }}>Next</button>
+                {this.state.images.length === 1 ? 
+                    (<p></p>) :
+                    (<button className="Article__button" onClick={this.onClickNextImage}>Next</button>)
+                }
+                
             </div>
         )
     }
