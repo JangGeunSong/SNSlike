@@ -5,7 +5,7 @@ const path = require('path');
 const { ApolloServer } = require('apollo-server-express');
 const { existsSync, mkdirSync } = require('fs') // Checking folder is exist and make folder if folder does not exist.
 const jwt = require('jsonwebtoken')
-const { SECRET_KEY } = require('./staticConst');
+const { SECRET_KEY } = require('./staticConst'); // Static const for decrypting the jwt token value.
 
 const typeDefs = require('./DAO/schema/schema');
 const resolvers = require('./DAO/resolver/merge');
