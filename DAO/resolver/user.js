@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { createWriteStream } = require('fs');
+const { createWriteStream, unlink } = require('fs');
 const path = require('path');
 
 const { SECRET_KEY } = require('../../staticConst')
@@ -103,6 +103,8 @@ module.exports = {
             try {
                 const result = await User.findById(userId).populate('user');
                 await User.deleteOne({ _id: userId });
+                // Delete the file in server File storage
+                unlink(__dirname, `../../static/images`, result._doc.profile_image)
                 targetUser = {
                     ...result._doc,
                     _id: result._id,
@@ -117,14 +119,24 @@ module.exports = {
         },
         updateUser: async (object, args, context) => {
             const userId = args.userId;
+            const { createReadStream, filename, mimetype, encoding } = await args.userInput.profile_image;
+            const user = await User.findOne({ email: args.userInput.email });
             let updateContent;
             let newPassword = await bcrypt.hash(args.userInput.password, 12);
             try {
+                if(filename !== user.profile_image) { 
+                    // If stored file name in database and new file name are diffent, delete stored file and save new file
+                    unlink(__dirname, "../../static/images", user.profile_image);
+                    // Delete stored file
+                    await createReadStream()
+                            .pipe(createWriteStream(path.join(__dirname, `../../static/images`, filename)));
+                    // Create New profile picture
+                }
                 updateContent = {
                     name: args.userInput.name,
                     password: newPassword,
                     profile: args.userInput.profile,
-                    profile_image: args.userInput.profile_image,
+                    profile_image: filename,
                 }
                 await User.findByIdAndUpdate(userId, updateContent, { new: true }, (error) => {
                     if(error) {

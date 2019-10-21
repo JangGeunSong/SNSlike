@@ -1,6 +1,6 @@
 const Article = require('../../model/Article');
 const User = require('../../model/User');
-const { createWriteStream, unlinkSync } = require('fs');
+const { createWriteStream, unlinkSync, unlink } = require('fs');
 const path = require('path');
 
 async function findtargetUser (userId) {
@@ -123,13 +123,36 @@ module.exports = {
             const articleId = args.articleId;
             const userId = context.clientInfo.userId;
             const articleOwner = await Article.findById(articleId).populate('article');
+            const articleImages = await args.articleInput.images;
             if(userId === articleOwner._doc.writer.toString()) {
-                const updateContent = {
-                    title: args.articleInput.title,
-                    description: args.articleInput.description,                    
-                    date: new Date().toISOString()
-                }
-                try {
+                /* Stored image process ==> 
+                    1. If image name exist in DB & sending message, doed not be executed any action or method.
+                    2. If image name 'just' exist in DB, that should be removed.
+                    3. If image name 'just' exist in input data as a promise, that save in storage as a new image file.
+                */
+               try {
+                    articleOwner._doc.images.map((image) => {
+                        unlink(path.join(__dirname, '../../static/article', image))
+                    })
+                    // Delete all files in the article and save all files in storage
+                    articleOwner._doc.images = [];
+                    // Is it necessary?
+                    articleImages.map((image) => {
+                        image
+                            .then(({ filename, mimetype, encoding, createReadStream }) => {
+                                if(!articleOwner._doc.images.includes(filename)) { // it's better to use 'include' method
+                                    createReadStream()
+                                        .pipe(createWriteStream(path.join(__dirname, '../../static/article', filename)))
+                                }
+                            })
+                            .catch(err => console.log(err))
+                    });
+                    const updateContent = {
+                        title: args.articleInput.title,
+                        description: args.articleInput.description,
+                        images: args.articleInput.filenames,                    
+                        date: new Date().toISOString()
+                    }
                     Article.findByIdAndUpdate(articleId, updateContent, { new: true }, (error) => {
                         if(error) {
                             throw error;
