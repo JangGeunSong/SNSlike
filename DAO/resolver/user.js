@@ -2,10 +2,16 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { createWriteStream, unlink } = require('fs');
 const path = require('path');
+const AWS = require('aws-sdk');
+
 
 const { SECRET_KEY } = require('../../staticConst')
 const User = require('../../model/User');
 const Article = require('../../model/Article');
+
+AWS.config.loadFromPath(__dirname, '/awsconfig.json');
+
+let s3 = new AWS.S3();
 
 module.exports = {
     Query: {
@@ -50,8 +56,23 @@ module.exports = {
                     throw new Error('User exist already!')
                 }
                 const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
-                await createReadStream()
-                    .pipe(createWriteStream(path.join(__dirname, `../../static/images`, filename)));
+                let param = {
+                    Bucket: 'sjg-bucket-com', 
+                    Key: '/static/profile', 
+                    Body: await createReadStream()
+                }
+                // For S use S3 we need to set the parameter to send AWS system
+                s3.upload(param)
+                    .on("httpUploadProgress", evt => {
+
+                    })
+                    .send((err, data) => {
+                        console.log(data)
+                    })
+                // S3 upload method
+
+                // await createReadStream()
+                //     .pipe(createWriteStream(path.join(__dirname, `../../static/images`, filename)));
                 // Now image files are need to separate for usage. So I will replace name images -> profile
                 let user = new User({
                     name: args.userInput.name,
@@ -104,7 +125,17 @@ module.exports = {
                 const result = await User.findById(userId).populate('user');
                 await User.deleteOne({ _id: userId });
                 // Delete the file in server File storage
-                unlink(__dirname, `../../static/images`, result._doc.profile_image)
+                // unlink(__dirname, `../../static/images`, result._doc.profile_image)
+                let param = {
+                    Bucket: 'sjg-bucket-com', 
+                    Key: '/static/profile/' + result._doc.profile_image, 
+                }
+                s3.deleteObject(param, (err, data) => {
+                    if(err) {
+                        throw err;
+                    }
+                    console.log(data);
+                })
                 targetUser = {
                     ...result._doc,
                     _id: result._id,
@@ -126,10 +157,35 @@ module.exports = {
             try {
                 if(filename !== user.profile_image) { 
                     // If stored file name in database and new file name are diffent, delete stored file and save new file
-                    unlink(__dirname, "../../static/images", user.profile_image);
+                    // unlink(__dirname, "../../static/images", user.profile_image);
+                    let deleteParam = {
+                        Bucket: 'sjg-bucket-com', 
+                        Key: '/static/profile/' + user._doc.profile_image, 
+                    }
+                    s3.deleteObject(deleteParam, (err, data) => {
+                        if(err) {
+                            throw err;
+                        }
+                        console.log(data);
+                    })
                     // Delete stored file
-                    await createReadStream()
-                            .pipe(createWriteStream(path.join(__dirname, `../../static/images`, filename)));
+                    let uploadParam = {
+                        Bucket: 'sjg-bucket-com', 
+                        Key: '/static/profile', 
+                        Body: await createReadStream()
+                    }
+                    s3.upload(uploadParam)
+                        .on("httpUploadProgress", evt => {
+
+                        })
+                        .send((err, data) => {
+                            if(err) {
+                                throw err;
+                            }
+                            console.log(data);
+                        })
+                    // await createReadStream()
+                    //         .pipe(createWriteStream(path.join(__dirname, `../../static/images`, filename)));
                     // Create New profile picture
                 }
                 updateContent = {

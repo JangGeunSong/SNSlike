@@ -2,6 +2,7 @@
 /node_modules
 nodemon.json
 /static
+awsconfig.json
 
 # Client side important part is blocked
 /client/node_modules

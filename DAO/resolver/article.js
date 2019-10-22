@@ -2,6 +2,11 @@ const Article = require('../../model/Article');
 const User = require('../../model/User');
 const { createWriteStream, unlinkSync, unlink } = require('fs');
 const path = require('path');
+const AWS = require('aws-sdk');
+
+AWS.config.loadFromPath(__dirname, '/awsconfig.json');
+
+let s3 = new AWS.S3();
 
 async function findtargetUser (userId) {
     const user = await User.findById(userId);
@@ -64,8 +69,23 @@ module.exports = {
                 articleImages.map((image) => {
                     image
                         .then(({ filename, mimetype, encoding, createReadStream }) => {
-                            createReadStream()
-                                .pipe(createWriteStream(path.join(__dirname, '../../static/article', filename)))
+                            let uploadParam = {
+                                Bucket: 'sjg-bucket-com', 
+                                Key: '/static/articleimgs', 
+                                Body: await createReadStream()
+                            }
+                            s3.upload(uploadParam)
+                                .on("httpUploadProgress", evt => {
+
+                                })
+                                .send((err, data) => {
+                                    if(err) {
+                                        throw err;
+                                    }
+                                    console.log(data);
+                                })
+                            // createReadStream()
+                            //     .pipe(createWriteStream(path.join(__dirname, '../../static/article', filename)))
                         })
                         .catch(err => console.log(err))
                 });
@@ -106,7 +126,17 @@ module.exports = {
                 if(images !== null) {
                     images.map((image) => {
                         try {
-                            unlinkSync(path.join(__dirname, `../../static/article`, image))
+                            let deleteParam = {
+                                Bucket: 'sjg-bucket-com', 
+                                Key: '/static/articleimgs/' + image, 
+                            }
+                            s3.deleteObject(deleteParam, (err, data) => {
+                                if(err) {
+                                    throw err;
+                                }
+                                console.log(data);
+                            })
+                            // unlinkSync(path.join(__dirname, `../../static/article`, image))
                         } catch (error) {
                             throw error
                         }
@@ -132,7 +162,17 @@ module.exports = {
                 */
                try {
                     articleOwner._doc.images.map((image) => {
-                        unlink(path.join(__dirname, '../../static/article', image))
+                        let deleteParam = {
+                            Bucket: 'sjg-bucket-com', 
+                            Key: '/static/articleimgs/' + image, 
+                        }
+                        s3.deleteObject(deleteParam, (err, data) => {
+                            if(err) {
+                                throw err;
+                            }
+                            console.log(data);
+                        })
+                        // unlink(path.join(__dirname, '../../static/article', image))
                     })
                     // Delete all files in the article and save all files in storage
                     articleOwner._doc.images = [];
@@ -140,9 +180,24 @@ module.exports = {
                     articleImages.map((image) => {
                         image
                             .then(({ filename, mimetype, encoding, createReadStream }) => {
-                                if(!articleOwner._doc.images.includes(filename)) { // it's better to use 'include' method
-                                    createReadStream()
-                                        .pipe(createWriteStream(path.join(__dirname, '../../static/article', filename)))
+                                if(!articleOwner._doc.images.includes(filename)) { // it's better to use 'includes' method
+                                    let uploadParam = {
+                                        Bucket: 'sjg-bucket-com', 
+                                        Key: '/static/articleimgs', 
+                                        Body: await createReadStream()
+                                    }
+                                    s3.upload(uploadParam)
+                                        .on("httpUploadProgress", evt => {
+        
+                                        })
+                                        .send((err, data) => {
+                                            if(err) {
+                                                throw err;
+                                            }
+                                            console.log(data);
+                                        })
+                                    // createReadStream()
+                                    //     .pipe(createWriteStream(path.join(__dirname, '../../static/article', filename)))
                                 }
                             })
                             .catch(err => console.log(err))

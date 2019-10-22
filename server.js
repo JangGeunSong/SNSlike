@@ -6,11 +6,16 @@ const { ApolloServer } = require('apollo-server-express');
 const { existsSync, mkdirSync } = require('fs') // Checking folder is exist and make folder if folder does not exist.
 const jwt = require('jsonwebtoken')
 const { SECRET_KEY } = require('./staticConst'); // Static const for decrypting the jwt token value.
+const AWS = require('aws-sdk');
 
 const typeDefs = require('./DAO/schema/schema');
 const resolvers = require('./DAO/resolver/merge');
 
 const app = express();
+
+AWS.config.loadFromPath(__dirname, '/awsconfig.json');
+
+let s3 = new AWS.S3();
 
 app.use(bodyParser.json());
 
