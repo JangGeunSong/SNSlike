@@ -80,7 +80,7 @@ function Articles() {
                                                 <Moment format="LLLL" local>{article.date}</Moment>
                                             </div>
                                             <div className="User__container">
-                                                <img className="User__profile" src={`http://localhost:5500/static/images/${article.writer.profile_image}`} alt={`${article.writer.name}'s image`}/>
+                                                <img className="User__profile" src={`https://sjg-bucket-com.s3.amazonaws.com/static/profile/${article.writer.profile_image}`} alt={`${article.writer.name}'s image`}/>
                                                 <p className="User__name">{article.writer.name}</p>
                                             </div>
                                             {article.writer.name === localStorage.getItem('userName') ? 

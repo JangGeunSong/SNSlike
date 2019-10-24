@@ -37,12 +37,12 @@ export class ArticleImage extends Component<ImageProps> {
                     this.state.images.map((image, number) => {
                         if(number === this.state.tarNum) {
                             return (
-                                <img className="Article__image" key={number} style={ this.showImage } src={`http://localhost:5500/static/article/${image}`} alt={`${image}`}/>
+                                <img className="Article__image" key={number} style={ this.showImage } src={`https://sjg-bucket-com.s3.amazonaws.com/static/articleimgs/${image}`} alt={`${image}`}/>
                             )
                         }
                         else {
                             return (
-                                <img className="Article__image" key={number} style={ this.noShowImage } src={`http://localhost:5500/static/article/${image}`} alt={`${image}`}/>
+                                <img className="Article__image" key={number} style={ this.noShowImage } src={`https://sjg-bucket-com.s3.amazonaws.com/static/articleimgs/${image}`} alt={`${image}`}/>
                             )
                         }
                     })

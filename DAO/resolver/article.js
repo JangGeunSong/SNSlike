@@ -2,11 +2,8 @@ const Article = require('../../model/Article');
 const User = require('../../model/User');
 const { createWriteStream, unlinkSync, unlink } = require('fs');
 const path = require('path');
-const AWS = require('aws-sdk');
 
-AWS.config.loadFromPath(__dirname, '/awsconfig.json');
-
-let s3 = new AWS.S3();
+const s3 = require('../../s3')
 
 async function findtargetUser (userId) {
     const user = await User.findById(userId);
@@ -47,12 +44,12 @@ module.exports = {
         createArticle: async (object, args, context) => {
             const articleImages = await args.articleInput.images;
             const filenames = await args.articleInput.fileNames;
-            console.log(filenames);
+            console.log(context.parsingContext);
             let article = new Article({
                 title: args.articleInput.title,
                 description: args.articleInput.description,
                 date: new Date().toISOString(),
-                writer: context.clientInfo.userId,
+                writer: context.parsingContext.clientInfo.userId,
                 images: filenames,
             });
             // Don't need the _id field because it will create automatically by mongodb
@@ -71,8 +68,8 @@ module.exports = {
                         .then(({ filename, mimetype, encoding, createReadStream }) => {
                             let uploadParam = {
                                 Bucket: 'sjg-bucket-com', 
-                                Key: '/static/articleimgs', 
-                                Body: await createReadStream()
+                                Key: 'static/articleimgs/' + filename, 
+                                Body: createReadStream()
                             }
                             s3.upload(uploadParam)
                                 .on("httpUploadProgress", evt => {
@@ -89,7 +86,7 @@ module.exports = {
                         })
                         .catch(err => console.log(err))
                 });
-                const writer = await User.findById(context.clientInfo.userId);
+                const writer = await User.findById(context.parsingContext.clientInfo.userId);
                 if(!writer) {
                     throw new Error('User not found!')
                 }
@@ -128,7 +125,7 @@ module.exports = {
                         try {
                             let deleteParam = {
                                 Bucket: 'sjg-bucket-com', 
-                                Key: '/static/articleimgs/' + image, 
+                                Key: 'static/articleimgs/' + image, 
                             }
                             s3.deleteObject(deleteParam, (err, data) => {
                                 if(err) {
@@ -151,7 +148,7 @@ module.exports = {
         // update article
         updateArticle: async (object, args, context) => {
             const articleId = args.articleId;
-            const userId = context.clientInfo.userId;
+            const userId = context.parsingContext.clientInfo.userId;
             const articleOwner = await Article.findById(articleId).populate('article');
             const articleImages = await args.articleInput.images;
             if(userId === articleOwner._doc.writer.toString()) {
@@ -164,7 +161,7 @@ module.exports = {
                     articleOwner._doc.images.map((image) => {
                         let deleteParam = {
                             Bucket: 'sjg-bucket-com', 
-                            Key: '/static/articleimgs/' + image, 
+                            Key: 'static/articleimgs/' + image, 
                         }
                         s3.deleteObject(deleteParam, (err, data) => {
                             if(err) {
@@ -183,8 +180,8 @@ module.exports = {
                                 if(!articleOwner._doc.images.includes(filename)) { // it's better to use 'includes' method
                                     let uploadParam = {
                                         Bucket: 'sjg-bucket-com', 
-                                        Key: '/static/articleimgs', 
-                                        Body: await createReadStream()
+                                        Key: 'static/articleimgs/' + filename, 
+                                        Body: createReadStream()
                                     }
                                     s3.upload(uploadParam)
                                         .on("httpUploadProgress", evt => {

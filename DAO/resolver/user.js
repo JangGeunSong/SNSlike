@@ -2,16 +2,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { createWriteStream, unlink } = require('fs');
 const path = require('path');
-const AWS = require('aws-sdk');
-
 
 const { SECRET_KEY } = require('../../staticConst')
 const User = require('../../model/User');
 const Article = require('../../model/Article');
 
-AWS.config.loadFromPath(__dirname, '/awsconfig.json');
-
-let s3 = new AWS.S3();
+const s3 = require('../../s3');
 
 module.exports = {
     Query: {
@@ -58,7 +54,7 @@ module.exports = {
                 const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
                 let param = {
                     Bucket: 'sjg-bucket-com', 
-                    Key: '/static/profile', 
+                    Key: "static/profile/" + filename,
                     Body: await createReadStream()
                 }
                 // For S use S3 we need to set the parameter to send AWS system
@@ -67,7 +63,8 @@ module.exports = {
 
                     })
                     .send((err, data) => {
-                        console.log(data)
+                        if(err) console.log(err)
+                        else console.log(data)
                     })
                 // S3 upload method
 
@@ -128,7 +125,7 @@ module.exports = {
                 // unlink(__dirname, `../../static/images`, result._doc.profile_image)
                 let param = {
                     Bucket: 'sjg-bucket-com', 
-                    Key: '/static/profile/' + result._doc.profile_image, 
+                    Key: 'static/profile/' + result._doc.profile_image, 
                 }
                 s3.deleteObject(param, (err, data) => {
                     if(err) {
@@ -160,7 +157,7 @@ module.exports = {
                     // unlink(__dirname, "../../static/images", user.profile_image);
                     let deleteParam = {
                         Bucket: 'sjg-bucket-com', 
-                        Key: '/static/profile/' + user._doc.profile_image, 
+                        Key: 'static/profile/' + user._doc.profile_image, 
                     }
                     s3.deleteObject(deleteParam, (err, data) => {
                         if(err) {
@@ -171,7 +168,7 @@ module.exports = {
                     // Delete stored file
                     let uploadParam = {
                         Bucket: 'sjg-bucket-com', 
-                        Key: '/static/profile', 
+                        Key: 'static/profile/' + filename, 
                         Body: await createReadStream()
                     }
                     s3.upload(uploadParam)
