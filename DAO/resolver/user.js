@@ -30,7 +30,7 @@ module.exports = {
             }
         },
         user: async (object, args, context) => {
-            const userId = args.userId;
+            const userId = context.parsingContext.clientInfo.userId;
             try {
                 const targetUser = await User.findOne(userId);
                 return targetUser;    

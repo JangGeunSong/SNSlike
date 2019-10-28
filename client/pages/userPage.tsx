@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Mutation } from 'react-apollo'
+import { Query, Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import Link from 'next/link'
 
@@ -33,11 +33,27 @@ export class userPage extends Component {
                 }
             }
         `
+        const GET_USERIMGS = gql`
+            query {
+                profile_image
+            }
+        `
         return (
             <div>
                 <Title />
                 <Navbar />
                 <React.Fragment>
+                    {/* <Query query={GET_USERIMGS}>
+                        {({ loading, error, data }) => {
+                            if(loading) return 'loading...'
+                            if(error) return `Error! ${error}`
+
+                            if(this.state.isLoggedIn) {
+                                return ();
+                            }
+
+                        }}
+                    </Query> */}
                     {this.state.isLoggedIn ? // If not logged in user cannot go to the user page in detail
                     (
                         <Mutation 
