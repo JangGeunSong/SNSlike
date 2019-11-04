@@ -1,11 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { createWriteStream, unlink } = require('fs');
-const path = require('path');
 
 const { SECRET_KEY } = require('../../staticConst')
 const User = require('../../model/User');
-const Article = require('../../model/Article');
 
 const s3 = require('../../s3');
 

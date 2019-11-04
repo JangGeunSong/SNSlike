@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Query, Mutation } from 'react-apollo'
+import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import Link from 'next/link'
 
@@ -33,11 +33,11 @@ export class userPage extends Component {
                 }
             }
         `
-        const GET_USERIMGS = gql`
-            query {
-                profile_image
-            }
-        `
+        // const GET_USERIMGS = gql`
+        //     query {
+        //         profile_image
+        //     }
+        // `
         return (
             <div>
                 <Title />

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
 const { ApolloServer } = require('apollo-server-express');
-const { existsSync, mkdirSync } = require('fs') // Checking folder is exist and make folder if folder does not exist.
+// const { existsSync, mkdirSync } = require('fs') // Checking folder is exist and make folder if folder does not exist. -> No more needs
 const jwt = require('jsonwebtoken')
 const { SECRET_KEY } = require('./staticConst'); // Static const for decrypting the jwt token value.
 
@@ -40,17 +40,19 @@ const server = new ApolloServer({
     } 
 });
 
-// If folder does not exist make directory using fs requring.
-existsSync(path.join(__dirname, "/static/images")) || mkdirSync(path.join(__dirname, "/static/images"));
+// No more needs static folder. Because I use aws s3 service for rendering client side app by sending static images
 
-// If folder does not exist make directory using fs requring.
-existsSync(path.join(__dirname, "/static/article")) || mkdirSync(path.join(__dirname, "/static/article"));
+// // If folder does not exist make directory using fs requring.
+// existsSync(path.join(__dirname, "/static/images")) || mkdirSync(path.join(__dirname, "/static/images"));
 
-// Order is important for use static file sending.
-app.use("/static/images", express.static(path.join(__dirname, "/static/images")));
+// // If folder does not exist make directory using fs requring.
+// existsSync(path.join(__dirname, "/static/article")) || mkdirSync(path.join(__dirname, "/static/article"));
 
-// Order is important for use static file sending.
-app.use("/static/article", express.static(path.join(__dirname, "/static/article")));
+// // Order is important for use static file sending.
+// app.use("/static/images", express.static(path.join(__dirname, "/static/images")));
+
+// // Order is important for use static file sending.
+// app.use("/static/article", express.static(path.join(__dirname, "/static/article")));
 
 server.applyMiddleware({ 
     app,

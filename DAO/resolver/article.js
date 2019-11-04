@@ -1,7 +1,5 @@
 const Article = require('../../model/Article');
 const User = require('../../model/User');
-const { createWriteStream, unlinkSync, unlink } = require('fs');
-const path = require('path');
 
 const s3 = require('../../s3')
 
