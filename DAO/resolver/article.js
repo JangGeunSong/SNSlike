@@ -99,6 +99,7 @@ module.exports = {
         // delete article
         deleteArticle: async (object, args, context) => {
             const articleId = args.articleId;
+            let creatorsArticle;
             let targetArticle;
             try {
                 const result = await Article.findById(articleId).populate('article');
@@ -116,8 +117,9 @@ module.exports = {
                     date: new Date(result._doc.date).toISOString(),
                     writer: writer,
                 }
-                await writer.created_articles.filter(el => el !== articleId);
-                await writer.save();
+                creatorsArticle = await writer.created_articles.filter(el => el !== articleId);
+                await writer.updateOne({ _id: result._doc.writer }, { $set: { created_articles: creatorsArticle } });
+                // Update writer's created article. This process delete article Id on this target article.
                 if(images !== null) {
                     images.map((image) => {
                         try {
