@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 
-import './pageStyle.css'
-
 import Title from '../components/Title/Title'
 import Navbar from '../components/Navbar/Navbar'
 

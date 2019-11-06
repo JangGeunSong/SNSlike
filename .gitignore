@@ -3,6 +3,7 @@
 nodemon.json
 /static
 awsconfig.json
+/public
 
 # Client side important part is blocked
 /client/node_modules

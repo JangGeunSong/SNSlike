@@ -4,8 +4,6 @@ import { Mutation, ApolloConsumer } from 'react-apollo'
 import gql from 'graphql-tag'
 import Dropzone from 'react-dropzone'
 
-import './pageStyle.css'
-
 import Title from '../components/Title/Title'
 import Navbar from '../components/Navbar/Navbar';
 

@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { withRouter, SingletonRouter } from 'next/router'
 import Link from 'next/link'
 
-import './pageStyle.css';
-
 import Title from '../components/Title/Title'
 import Navbar from '../components/Navbar/Navbar';
 import Articles from '../components/Articles/Articles';

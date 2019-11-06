@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 
-import './Articles.css'
-
 type ImageProps = {
     images: [string];
 };

@@ -8,11 +8,11 @@
     border: none;
     position: absolute;
     left: 6.8rem;
-    cursor: pointer;
     outline: none;
     color: #fff;
     transition: 0.3s;
     font-size: 3rem;
+    cursor: pointer;
 }
 
 .Navbar__active-button {
@@ -20,10 +20,10 @@
     padding: 0;
     font-size: 2rem;
     border: none;
-    cursor: pointer;
     outline: none;
     background-color: #fff;
     position: fixed;
+    cursor: pointer;
 }
 
 .Navbar__default {
@@ -51,7 +51,6 @@
     text-decoration: none;
     font-size: 1.5rem;
     line-height: 4rem;
-    cursor: pointer;
 }
 
 .Navbar__route:hover, 

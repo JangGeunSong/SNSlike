@@ -3,8 +3,6 @@ import Link from 'next/link'
 import { Mutation, ApolloConsumer } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import './pageStyle.css'
-
 import Title from '../components/Title/Title'
 import Navbar from '../components/Navbar/Navbar'
 

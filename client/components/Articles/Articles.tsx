@@ -6,8 +6,6 @@ import Link from 'next/link'
 
 import ArticleImage from './ArticleImage';
 
-import './Articles.css'
-
 function Articles() {
 
     const GET_ARTICLES = gql`

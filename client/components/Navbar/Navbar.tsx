@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { withRouter } from 'next/router';
 import Link from 'next/link';
 
-import './Navbar.css';
-
 function Navbar() {
 
     const [navbarShow, setNavbarShow] = useState(false);

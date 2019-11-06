@@ -1,0 +1,50 @@
+@import './title.scss';
+@import './navbar.scss';
+@import './article.scss';
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.home {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    font-family: sans-serif;
+}
+
+textarea {
+    resize: none;
+}
+
+.form__control {
+    margin: 0;
+    padding: 1rem;
+    font-family: sans-serif;
+}
+
+.form__button {
+    margin-left: 45rem;
+    padding: 1rem;
+    font-family: sans-serif;
+    background-color: #053691;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.form__button:hover {
+    background-color: #0953dd;
+}
+
+a {
+    text-decoration: none;
+}
+
