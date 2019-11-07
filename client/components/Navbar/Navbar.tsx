@@ -11,7 +11,7 @@ function Navbar() {
             {navbarShow ? 
             (
                 <div className="Navbar__active">
-                    <button className="Navbar__close-button" onClick={() => setNavbarShow(false)}>X</button>
+                    <button className="Navbar__close-button" onClick={() => setNavbarShow(false)}>X</button><br />
                     <Link href="/" ><a className="Navbar__route">Home</a></Link><br/>
                     <Link href="/About" ><a className="Navbar__route">About</a></Link><br/>
                     <Link href="/CreateArticle" ><a className="Navbar__route">new article</a></Link><br/>

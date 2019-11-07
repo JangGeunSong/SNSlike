@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.home {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    font-family: sans-serif;
+}
+
+textarea {
+    resize: none;
+}
+
+.form__control {
+    margin: 0;
+    padding: 1rem;
+    font-family: sans-serif;
+}
+
+.form__button {
+    position: flex;
+    margin: 5%;
+    padding: 1rem;
+    font-family: sans-serif;
+    background-color: $primary-color;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.form__button:hover {
+    background-color: $secondary-color;
+}
+
+a {
+    text-decoration: none;
+}

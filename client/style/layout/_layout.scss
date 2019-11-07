@@ -1,0 +1,23 @@
+@import './title';
+@import './navbar';
+@import './article';
+
+@include mq(medium) {
+    .title, .Navbar {
+        width: 100%;
+        max-width: 100%;
+    }
+    .contentContainer {
+        margin-left: 30%;
+    }
+    .form__button {
+        margin: 0;
+    }
+}
+@include mq(large) {
+    .contentContainer {
+        margin-left: 20%;
+        width: 100%;
+        max-width: 100%;    
+    }
+}
