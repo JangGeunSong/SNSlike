@@ -1,7 +1,8 @@
+// Break points separate 3 part. 1. for desktop size design(huge), 2. for tablet size design(large), 3. for mobile device design(medium).
 $breakpoints: (
-    'huge': 1200px,
-    'large': 800px,
-    'medium': 600px,
+    'huge': 1000px, // For desktop size design.
+    'large': 700px, // For tablet size design.
+    'medium': 400px,// For mobile size design.
 );
 
 @mixin mq($mq-breakpoint, $mq-breakpoints: $breakpoints) {

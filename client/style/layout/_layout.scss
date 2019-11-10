@@ -4,14 +4,12 @@
 
 @include mq(medium) {
     .title, .Navbar {
-        width: 100%;
-        max-width: 100%;
+        float: none;
+        width: auto;
     }
     .contentContainer {
-        margin-left: 30%;
-    }
-    .form__button {
-        margin: 0;
+        float: none;
+        width: auto;
     }
 }
 @include mq(large) {
