@@ -16,13 +16,14 @@
 
 .button__bundle {
     float: right;
-    max-width: 40%;
+    width: 35%;
+    max-width: 50%;
 }
 
 .title__login,
 .title__register {
+    width: 50%;
     margin: 0;
-    margin-left: 1rem;
     padding: 0.5rem; 
     font-family: sans-serif;
     background-color: $third-color;
