@@ -114,11 +114,11 @@ export class CreateArticle extends Component<componentProps> {
                                         }}
                                     >
                                         <div className="form__control">
-                                            <label htmlFor="title">Title </label>
+                                            <label htmlFor="title">Title </label><br />
                                             <input type="text" id="title" placeholder="Type the title" onChange={this.onTitleHandle} />
                                         </div>
                                         <div className="form__control">
-                                            <label htmlFor="description">Description</label>
+                                            <label htmlFor="description">Description</label><br />
                                             <textarea id="description" placeholder="Type any contents" onChange={this.onDescriptionHandle} rows={25} cols={120}/>
                                         </div>
                                         <Dropzone onDrop={this.onDrop}>

@@ -35,7 +35,7 @@
     background-color: $primary-color;
     width: 15%;
     max-width: 15%;
-    height: 60rem;
+    height: 100%;
     max-height: 100%;
     font-family: Verdana, Tahoma, sans-serif;
     z-index: 10;
@@ -55,5 +55,5 @@
 .Navbar__route:hover, 
 .Navbar__active-button:hover,
 .Navbar__close-button:hover {
-    color: #a5cae4;
+    color: $secondary-color1;
 }
