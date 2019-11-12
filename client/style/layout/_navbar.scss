@@ -5,7 +5,7 @@
 }
 
 .Navbar__close-button {
-    background-color: $primary-color;
+    background-color: $main-theme-color;
     border: none;
     position: flex;
     outline: none;
@@ -32,7 +32,7 @@
 
 .Navbar__active {
     position: fixed;
-    background-color: $primary-color;
+    background-color: $main-theme-color;
     width: 15%;
     max-width: 15%;
     height: 100%;
