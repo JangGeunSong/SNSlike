@@ -34,7 +34,8 @@ const server = new ApolloServer({
                 }
                 return { res, parsingContext };
             } catch (error) {
-                throw error
+                console.log(error)
+                throw new Error(error.message)
             }
         }
     } 

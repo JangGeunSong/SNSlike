@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 import ArticleImage from './ArticleImage';
 
-function Articles() {
+function Articles(props: any) {
 
     const GET_ARTICLES = gql`
         query {
@@ -43,7 +43,15 @@ function Articles() {
         <Query query={GET_ARTICLES}>
             {({ loading, error, data }: any) => {
                 if (loading) return 'Loading...';
-                if (error) return `Error! ${error.message}`;
+                if (error) {
+                    localStorage.clear();
+                    props.loginReset(false);
+                    return (
+                        <div>
+                            <p>You need to <Link href="/login">Login</Link> again</p>
+                        </div>
+                    )
+                }
 
                 let resultArticle = data.articles;
                 resultArticle.sort((a: any, b: any) => {

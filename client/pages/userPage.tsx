@@ -14,12 +14,6 @@ export class userPage extends Component {
 
     componentDidMount() {
         document.title = 'User Page'
-        if(localStorage.getItem('token') === null) {
-            this.setState({ isLoggedIn: false });
-        }
-        else {
-            this.setState({ isLoggedIn: true });
-        }
     }
 
     render() {
@@ -33,7 +27,9 @@ export class userPage extends Component {
         `
         const GET_USERIMGS = gql`
             query {
-                profile_image
+                user {
+                    profile_image
+                }
             }
         `
         return (

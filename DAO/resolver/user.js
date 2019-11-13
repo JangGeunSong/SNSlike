@@ -30,7 +30,15 @@ module.exports = {
             const userId = context.parsingContext.clientInfo.userId;
             try {
                 const targetUser = await User.findOne(userId);
-                return targetUser;    
+                console.log(targetUser)
+                return {
+                    _id: targetUser._id,
+                    name: targetUser.name,
+                    email: targetUser.email,
+                    profile_image: targetUser.profile_image,
+                    profile: targetUser.profile,
+                    created_articles: targetUser.created_articles,
+                };    
             } 
             catch (error) {
                 throw error;
@@ -96,12 +104,12 @@ module.exports = {
                     {userId: user.id, email: user.email},
                     SECRET_KEY,
                     {
-                        expiresIn: '1h'
+                        expiresIn: 60
                     }
                 );
                 context.res.cookie('token', token, {
                     httpOnly: true,
-                    maxAge: 1000 * 60 * 60
+                    maxAge: 1000 * 1
                 }); 
                 // Set cookie for the authentication.
                 // httpOnly option is more safe to illegally access from the client side JS or TS code directly.

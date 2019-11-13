@@ -26,6 +26,10 @@ class index extends Component<Props> {
         }
     }
 
+    loginReset = (loginCondition: boolean) => {
+        this.setState({ isLoggedIn: loginCondition });
+    }
+
     render() {
         return (
             <div className="home">
@@ -35,7 +39,7 @@ class index extends Component<Props> {
                     {this.state.isLoggedIn ? 
                     (
                         <div className="contentContainer">
-                            <Articles />   
+                            <Articles loginReset={this.loginReset} />   
                         </div>
                     ) :
                     (
