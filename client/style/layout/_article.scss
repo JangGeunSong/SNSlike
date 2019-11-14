@@ -2,10 +2,17 @@
     position: flex;
     align-items: center;
     width: 100%;
-    max-width: 80%;
+    max-width: 65%;
     padding-top: 7%;
     margin: 0;
     margin-left: 18%;
+    input, label {
+        margin: 1%;
+    }
+}
+
+.ml-35 {
+    margin-left: 35%;
 }
 
 .Articles {

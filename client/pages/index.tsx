@@ -43,7 +43,7 @@ class index extends Component<Props> {
                         </div>
                     ) :
                     (
-                        <div className="contentContainer">
+                        <div className="contentContainer ml-35">
                             <p>You need to </p><Link href="/login"><a>Login</a></Link>
                         </div>
                     )}

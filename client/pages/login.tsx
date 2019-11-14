@@ -47,7 +47,7 @@ class login extends Component {
             <div>
                 <Title />
                 <Navbar />
-                <div className="contentContainer">
+                <div className="contentContainer ml-35">
                     {this.state.isLoginComplete ?
                     (
                         <div>

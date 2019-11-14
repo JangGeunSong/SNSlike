@@ -42,7 +42,6 @@ module.exports = {
         createArticle: async (object, args, context) => {
             const articleImages = await args.articleInput.images;
             const filenames = await args.articleInput.fileNames;
-            console.log(context.parsingContext);
             let article = new Article({
                 title: args.articleInput.title,
                 description: args.articleInput.description,
@@ -77,7 +76,6 @@ module.exports = {
                                     if(err) {
                                         throw err;
                                     }
-                                    console.log(data);
                                 })
                             // createReadStream()
                             //     .pipe(createWriteStream(path.join(__dirname, '../../static/article', filename)))
@@ -99,16 +97,19 @@ module.exports = {
         // delete article
         deleteArticle: async (object, args, context) => {
             const articleId = args.articleId;
-            let creatorsArticle;
             let targetArticle;
             try {
                 const result = await Article.findById(articleId).populate('article');
                 await Article.deleteOne({ _id: articleId });
-                const writer = await User.findById(result._doc.writer);
-                // if(!writer) {
-                //     throw new Error('Creator not found!');
-                // }
-                const images = result._doc.images;
+                // Remove article in database
+                const writer = await User.findById(context.parsingContext.clientInfo.userId);
+                if(!writer) {
+                    throw new Error('User not found!')
+                }
+                const idx = await writer.created_articles.indexOf(articleId);
+                await writer.created_articles.splice(idx, 1);
+                await writer.save();
+                // Remove article id at the writer's article create list 
                 targetArticle = {
                     ...result._doc,
                     _id: result._id,
@@ -117,9 +118,7 @@ module.exports = {
                     date: new Date(result._doc.date).toISOString(),
                     writer: writer,
                 }
-                creatorsArticle = await writer.created_articles.filter(el => el !== articleId);
-                await writer.updateOne({ _id: result._doc.writer }, { $set: { created_articles: creatorsArticle } });
-                // Update writer's created article. This process delete article Id on this target article.
+                const images = result._doc.images;
                 if(images !== null) {
                     images.map((image) => {
                         try {
@@ -131,7 +130,6 @@ module.exports = {
                                 if(err) {
                                     throw err;
                                 }
-                                console.log(data);
                             })
                             // unlinkSync(path.join(__dirname, `../../static/article`, image))
                         } catch (error) {
@@ -139,6 +137,7 @@ module.exports = {
                         }
                     })
                 }
+                // Image processing access to S3 system
                 return targetArticle;
             } 
             catch (err) {
@@ -167,7 +166,6 @@ module.exports = {
                             if(err) {
                                 throw err;
                             }
-                            console.log(data);
                         })
                         // unlink(path.join(__dirname, '../../static/article', image))
                     })
@@ -191,7 +189,6 @@ module.exports = {
                                             if(err) {
                                                 throw err;
                                             }
-                                            console.log(data);
                                         })
                                     // createReadStream()
                                     //     .pipe(createWriteStream(path.join(__dirname, '../../static/article', filename)))

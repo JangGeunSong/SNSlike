@@ -30,7 +30,6 @@ module.exports = {
             const userId = context.parsingContext.clientInfo.userId;
             try {
                 const targetUser = await User.findOne(userId);
-                console.log(targetUser)
                 return {
                     _id: targetUser._id,
                     name: targetUser.name,
@@ -69,7 +68,6 @@ module.exports = {
                     })
                     .send((err, data) => {
                         if(err) console.log(err)
-                        else console.log(data)
                     })
                 // S3 upload method
 
@@ -98,18 +96,21 @@ module.exports = {
             try {
                 const isExistUser = await User.findOne({ email: args.loginInput.email });
                 if(!isExistUser) return new Error('User is not exist!');
+
                 const isPasswordEqual = await bcrypt.compare(args.loginInput.password, user.password)
                 if(!isPasswordEqual) return new Error('Password is not matched. please check your password!');
+                
                 const token = jwt.sign(
                     {userId: user.id, email: user.email},
                     SECRET_KEY,
                     {
-                        expiresIn: 60
+                        expiresIn: '1h'
                     }
                 );
+                
                 context.res.cookie('token', token, {
                     httpOnly: true,
-                    maxAge: 1000 * 1
+                    maxAge: 1000 * 60 * 60
                 }); 
                 // Set cookie for the authentication.
                 // httpOnly option is more safe to illegally access from the client side JS or TS code directly.
@@ -136,7 +137,6 @@ module.exports = {
                     if(err) {
                         throw err;
                     }
-                    console.log(data);
                 })
                 targetUser = {
                     ...result._doc,
@@ -168,7 +168,6 @@ module.exports = {
                         if(err) {
                             throw err;
                         }
-                        console.log(data);
                     })
                     // Delete stored file
                     let uploadParam = {
@@ -184,7 +183,6 @@ module.exports = {
                             if(err) {
                                 throw err;
                             }
-                            console.log(data);
                         })
                     // await createReadStream()
                     //         .pipe(createWriteStream(path.join(__dirname, `../../static/images`, filename)));

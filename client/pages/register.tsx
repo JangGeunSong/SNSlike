@@ -52,7 +52,7 @@ class register extends Component {
             <div>
                 <Title />
                 <Navbar />
-                <div className="contentContainer">
+                <div className="contentContainer ml-35">
                     <ApolloConsumer>
                         {() => (
                             <Mutation
@@ -96,24 +96,28 @@ class register extends Component {
                                             this.setState({ isRegisterComplete: true, name: NAME });
                                         }}>
                                             <h1>Register Page</h1>
+                                            <label htmlFor="email">Email</label><br />
                                             <input type="text" placeholder="email" ref={emailValue => { 
                                                 EMAIL = '';
                                                 if(emailValue !== null) {
                                                     EMAIL = emailValue.value;
                                                 }
                                             }}/><br/>
+                                            <label htmlFor="password">Password</label><br />
                                             <input type="password" placeholder="password" ref={passwordValue => { 
                                                 PASSWORD = '';
                                                 if(passwordValue !== null) {
                                                     PASSWORD = passwordValue.value; 
                                                 }
                                             }}/><br/>
+                                            <label htmlFor="name">Name</label><br />
                                             <input type="text" placeholder="name" ref={nameValue => { 
                                                 NAME = '';
                                                 if(nameValue !== null) {
                                                     NAME = nameValue.value;
                                                 } 
                                             }}/><br/>
+                                            <label htmlFor="profile">Profile</label><br />
                                             <input type="text" placeholder="profile" ref={profileValue => { 
                                                 PROFILE = '';
                                                 if(profileValue !== null) {
