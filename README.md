@@ -54,6 +54,7 @@ MongoDB와 관련된 파일들은 nodemon.json 파일을 생성하여 정보가 
         -Sass
         >프론트 엔드단의 디자인을 개선하고 프로그래밍적 논리를 더하기 위해 CSS의 전처리기인 Sass를 사용하였습니다. 반응형 웹을 개발하는데 활용합니다.
 
-
-# 4. 향후 발전 방향
-본격적인 앱의 Deploy에 앞서 글을 올리면 이미지 파일을 저장해야 하므로 이를 클라우드 컴퓨터를 활용하여 업로드 하는 방향을 고려하고 있습니다. 이에 따라 AWS(Amazone Web Service)를 사용하여 관리할 예정입니다. --> 해결하였음
+# 4. Deploy
+Amazon Web Service 의 EC2를 사용하여 웹 배포를 진행했습니다. 
+주소 : <a href="ec2-13-209-72-183.ap-northeast-2.compute.amazonaws.com">ec2-13-209-72-183.ap-northeast-2.compute.amazonaws.com</a>  (추후 변경예정)
+Domain을 등록하여 SSL을 장착할 예정입니다.
