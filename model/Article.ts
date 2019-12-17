@@ -1,14 +1,22 @@
-const mongoose = require('mongoose');
+import mongoose, {Schema, Document} from 'mongoose'
+// const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema;
+export interface IArticle extends Document {
+    title: string,
+    writer: string,
+    date: Date,
+    description: string,
+    images: [string],
+    _doc: IArticle,
+} 
 
-const Article = new Schema({
+const Article: Schema = new Schema({
     title: {
         type: String,
         required: true,
     },
     writer: {
-        type: Schema.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'User'
         // writer is object. I choose writer is the use on this page so, ref is 'User'
     },
@@ -28,4 +36,4 @@ const Article = new Schema({
     ],
 })
 
-module.exports = mongoose.model('Article', Article)
+export default mongoose.model<IArticle>('Article', Article)

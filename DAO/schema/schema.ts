@@ -1,6 +1,7 @@
-const { gql } = require('apollo-server-express');
+import { gql } from 'apollo-server-express'
+// const { gql } = require('apollo-server-express');
 
-module.exports =  typeDefs = gql`
+const typeDefs = gql`
   # Comments in GraphQL are defined with the hash (#) symbol.
   
   # Define article type
@@ -83,3 +84,5 @@ module.exports =  typeDefs = gql`
   }
 
 `;
+
+export default typeDefs

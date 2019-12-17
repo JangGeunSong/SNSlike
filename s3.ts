@@ -1,4 +1,5 @@
-const AWS = require('aws-sdk');
+import * as AWS from 'aws-sdk'
+// const AWS = require('aws-sdk');
 // Call the AWS link tool
 
 AWS.config.loadFromPath('./awsconfig.json');
@@ -10,7 +11,7 @@ AWS.config.loadFromPath('./awsconfig.json');
 const s3 = new AWS.S3();
 // S3 module create.
 
-module.exports = s3;
+export default s3;
 // Export S3 to other project modules wrapping method.
 
 /*

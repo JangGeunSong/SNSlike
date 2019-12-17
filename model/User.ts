@@ -1,8 +1,17 @@
-const mongoose = require('mongoose');
+import mongoose, { Schema, Document } from 'mongoose'
+// const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema;
+export interface IUser extends Document {
+    name: string,
+    email: string,
+    password: string,
+    profile_image: string,
+    profile: string,
+    created_articles: [Schema.Types.ObjectId],
+    _doc: IUser
+}
 
-const User = new Schema({
+const User: Schema = new Schema({
     name: {
         type: String,
         required: true,
@@ -25,11 +34,11 @@ const User = new Schema({
     },
     created_articles: [
         {
-            type: Schema.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'Article'
         }
     ]
     // Created articles are array. So, Array form [] is need
 })
 
-module.exports = mongoose.model('User', User)
+export default mongoose.model<IUser>('User', User)

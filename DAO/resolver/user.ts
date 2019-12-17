@@ -1,12 +1,17 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+import bcrypt from 'bcryptjs'
+// const bcrypt = require('bcryptjs');
+import jwt from 'jsonwebtoken'
+// const jwt = require('jsonwebtoken');
 
-const { SECRET_KEY } = require('../../staticConst')
-const User = require('../../model/User');
+import { SECRET_KEY } from '../../staticConst'
+// const { SECRET_KEY } = require('../../staticConst')
+import User from '../../model/User'
+// const User = require('../../model/User');
 
-const s3 = require('../../s3');
+import s3 from '../../s3'
+// const s3 = require('../../s3');
 
-module.exports = {
+export default {
     Query: {
         users: async () => {
             try {
@@ -26,18 +31,20 @@ module.exports = {
                 throw error;
             }
         },
-        user: async (object, args, context) => {
+        user: async (object: any, args: any, context: any) => {
             const userId = context.parsingContext.clientInfo.userId;
             try {
                 const targetUser = await User.findOne(userId);
-                return {
-                    _id: targetUser._id,
-                    name: targetUser.name,
-                    email: targetUser.email,
-                    profile_image: targetUser.profile_image,
-                    profile: targetUser.profile,
-                    created_articles: targetUser.created_articles,
-                };    
+                if(targetUser !== null) {
+                    return {
+                        _id: targetUser._id,
+                        name: targetUser.name,
+                        email: targetUser.email,
+                        profile_image: targetUser.profile_image,
+                        profile: targetUser.profile,
+                        created_articles: targetUser.created_articles,
+                    };    
+                }
             } 
             catch (error) {
                 throw error;
@@ -46,7 +53,7 @@ module.exports = {
     },
     Mutation: {
         // create user method
-        createUser: async (object, args) => {
+        createUser: async (object: any, args: any) => {
             try {
                 // Only File name is sended. That is problem for fail to fetch error. I need to solve this problem!.
                 console.log(args.userInput.profile_image)
@@ -66,7 +73,7 @@ module.exports = {
                     .on("httpUploadProgress", evt => {
 
                     })
-                    .send((err, data) => {
+                    .send((err: any, data: any) => {
                         if(err) console.log(err)
                     })
                 // S3 upload method
@@ -91,102 +98,109 @@ module.exports = {
         },
 
         // login method
-        login: async (object, args, context, info) => {
+        login: async (object: any, args: any, context: any, info: any) => {
             const user = await User.findOne({ email: args.loginInput.email });
             try {
                 const isExistUser = await User.findOne({ email: args.loginInput.email });
                 if(!isExistUser) return new Error('User is not exist!');
+                
+                let token = ''
 
-                const isPasswordEqual = await bcrypt.compare(args.loginInput.password, user.password)
-                if(!isPasswordEqual) return new Error('Password is not matched. please check your password!');
-                
-                const token = jwt.sign(
-                    {userId: user.id, email: user.email},
-                    SECRET_KEY,
-                    {
-                        expiresIn: '1h'
-                    }
-                );
-                
-                context.res.cookie('token', token, {
-                    httpOnly: true,
-                    maxAge: 1000 * 60 * 60
-                }); 
-                // Set cookie for the authentication.
-                // httpOnly option is more safe to illegally access from the client side JS or TS code directly.
-                return { userId: user.id, userName: user.name, token: token, tokenExpiration: 1 };
+                if(user !== null) {
+                    const isPasswordEqual = await bcrypt.compare(args.loginInput.password, user.password)
+                    if(!isPasswordEqual) return new Error('Password is not matched. please check your password!');
+                    
+                    token = jwt.sign(
+                        {userId: user.id, email: user.email},
+                        SECRET_KEY,
+                        {
+                            expiresIn: '1h'
+                        }
+                    );
+                    context.res.cookie('token', token, {
+                        httpOnly: true,
+                        maxAge: 1000 * 60 * 60
+                    }); 
+                    // Set cookie for the authentication.
+                    // httpOnly option is more safe to illegally access from the client side JS or TS code directly.
+                    return { userId: user.id, userName: user.name, token: token, tokenExpiration: 1 };
+                }
             } 
             catch (error) {
                 throw error;
             }
         },
         // delete User
-        deleteUser: async (object, args, context) => {
+        deleteUser: async (object: any, args: any, context: any) => {
             const userId = args.userId;
             let targetUser;
             try {
                 const result = await User.findById(userId).populate('user');
-                await User.deleteOne({ _id: userId });
-                // Delete the file in server File storage
-                // unlink(__dirname, `../../static/images`, result._doc.profile_image)
-                let param = {
-                    Bucket: 'sjg-bucket-com', 
-                    Key: 'static/profile/' + result._doc.profile_image, 
-                }
-                s3.deleteObject(param, (err, data) => {
-                    if(err) {
-                        throw err;
+                if(result !== null) {
+                    await User.deleteOne({ _id: userId });
+                    // Delete the file in server File storage
+                    // unlink(__dirname, `../../static/images`, result._doc.profile_image)
+                    let param = {
+                        Bucket: 'sjg-bucket-com', 
+                        Key: 'static/profile/' + result._doc.profile_image, 
                     }
-                })
-                targetUser = {
-                    ...result._doc,
-                    _id: result._id,
-                    name: result._doc.name,
-                    email: result._doc.email
+                    s3.deleteObject(param, (err, data) => {
+                        if(err) {
+                            throw err;
+                        }
+                    })
+                    targetUser = {
+                        ...result._doc,
+                        _id: result._id,
+                        name: result._doc.name,
+                        email: result._doc.email
+                    }
+                    return targetUser;
                 }
-                return targetUser;
             } 
             catch (error) {
                 throw error;
             }
         },
-        updateUser: async (object, args, context) => {
+        updateUser: async (object: any, args: any, context: any) => {
             const userId = args.userId;
             const { createReadStream, filename, mimetype, encoding } = await args.userInput.profile_image;
             const user = await User.findOne({ email: args.userInput.email });
             let updateContent;
             let newPassword = await bcrypt.hash(args.userInput.password, 12);
             try {
-                if(filename !== user.profile_image) { 
-                    // If stored file name in database and new file name are diffent, delete stored file and save new file
-                    // unlink(__dirname, "../../static/images", user.profile_image);
-                    let deleteParam = {
-                        Bucket: 'sjg-bucket-com', 
-                        Key: 'static/profile/' + user._doc.profile_image, 
-                    }
-                    s3.deleteObject(deleteParam, (err, data) => {
-                        if(err) {
-                            throw err;
+                if(user !== null) {
+                    if(filename !== user.profile_image) { 
+                        // If stored file name in database and new file name are diffent, delete stored file and save new file
+                        // unlink(__dirname, "../../static/images", user.profile_image);
+                        let deleteParam = {
+                            Bucket: 'sjg-bucket-com', 
+                            Key: 'static/profile/' + user._doc.profile_image, 
                         }
-                    })
-                    // Delete stored file
-                    let uploadParam = {
-                        Bucket: 'sjg-bucket-com', 
-                        Key: 'static/profile/' + filename, 
-                        Body: await createReadStream()
-                    }
-                    s3.upload(uploadParam)
-                        .on("httpUploadProgress", evt => {
-
-                        })
-                        .send((err, data) => {
+                        s3.deleteObject(deleteParam, (err, data) => {
                             if(err) {
                                 throw err;
                             }
                         })
-                    // await createReadStream()
-                    //         .pipe(createWriteStream(path.join(__dirname, `../../static/images`, filename)));
-                    // Create New profile picture
+                        // Delete stored file
+                        let uploadParam = {
+                            Bucket: 'sjg-bucket-com', 
+                            Key: 'static/profile/' + filename, 
+                            Body: await createReadStream()
+                        }
+                        s3.upload(uploadParam)
+                            .on("httpUploadProgress", evt => {
+    
+                            })
+                            .send((err: any, data: any) => {
+                                if(err) {
+                                    throw err;
+                                }
+                            })
+                        // await createReadStream()
+                        //         .pipe(createWriteStream(path.join(__dirname, `../../static/images`, filename)));
+                        // Create New profile picture
+                    }
                 }
                 updateContent = {
                     name: args.userInput.name,

@@ -1,5 +1,7 @@
-const articleResolver = require('./article');
-const userResolver = require('./user');
+import articleResolver from './article'
+import userResolver from './user'
+// const articleResolver = require('./article');
+// const userResolver = require('./user');
 
 const resolver = {
     Query: {
@@ -12,4 +14,4 @@ const resolver = {
     }
 }
 
-module.exports = resolver;
+export default resolver;
