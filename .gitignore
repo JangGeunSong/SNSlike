@@ -4,8 +4,10 @@ nodemon.json
 /static
 awsconfig.json
 /public
+/__test__/__snapshots__
 
 # Client side important part is blocked
 /client/node_modules
 /client/.next
 /client/out
+/client/__test__/__snapshots__
