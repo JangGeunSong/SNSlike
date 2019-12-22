@@ -1,10 +1,10 @@
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
+import Renderer from 'react-test-renderer';
 import Index from '../pages/index';
 
 describe('Index', () => {
     it('should render without throwing an error', () => {
-        const testRenderer = TestRenderer.create(<Index />);
+        const testRenderer = Renderer.create(<Index />);
         expect(testRenderer.toJSON()).toMatchSnapshot();
     });
 });

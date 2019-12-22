@@ -1,14 +1,15 @@
 import React from 'react'
 import Navbar from '../components/Navbar/Navbar'
-import renderer from 'react-test-renderer'
+import Renderer from 'react-test-renderer'
 
 describe("Navbar testing", () => {
-    it("Navbar is rendered?", () => {
-        const nav = renderer.create(
-            <Navbar />
-        )
-        let tree = nav.toJSON();
+    
+    const wrapper = Renderer.create(<Navbar />)
 
-        expect(tree).toMatchSnapshot()
+    it('should have button on navbar', () => {
+        const openButton = wrapper.root.findByProps({ className:"Navbar__active-button" })
+        Renderer.act(() => openButton.props.onClick())
+
+        expect(wrapper.toJSON()).toMatchSnapshot()
     })
 })
