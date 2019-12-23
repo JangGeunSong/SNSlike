@@ -9,7 +9,6 @@ describe("Navbar testing", () => {
     it('should have button on navbar', () => {
         const openButton = wrapper.root.findByProps({ className:"Navbar__active-button" })
         Renderer.act(() => openButton.props.onClick())
-
-        expect(wrapper.toJSON()).toMatchSnapshot()
+        console.log(wrapper.root.children)
     })
 })
