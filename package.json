@@ -10,7 +10,7 @@
   "author": "Janggeun Song",
   "license": "MIT",
   "dependencies": {
-    "apollo-server-express": "^2.9.14",
+    "apollo-server-express": "^2.14.2",
     "aws-sdk": "^2.593.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
